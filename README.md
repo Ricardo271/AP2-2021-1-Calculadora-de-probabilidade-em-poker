@@ -3,3 +3,4 @@ Um programa que permite calcular a probabilidade de uma mão de Poker ganhar o j
 
 Ricardo Zanluchi Ribeiro - login: Ricardo271
 Dimitri Santos Veloso - login: mitia-sv
+Pedro Henrique Aquino Alves - login: ph-aquino
