@@ -1,3 +1,5 @@
+package entities;
+
 public class Card {
 
     private final int value;
