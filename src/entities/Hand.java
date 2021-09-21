@@ -12,7 +12,7 @@ public class Hand {
 
     public int evaluateHand(Table table) {
 
-        // TODO realizar a mágica
+        // TODO realizar a magica
 
         return 0;
 
