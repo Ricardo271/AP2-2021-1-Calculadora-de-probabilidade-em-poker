@@ -18,7 +18,7 @@ public class Card {
     	this.value = value;
     }
     
-    public Card(String card) {
+    public Card(String card) { 
     	
         /*
               1st letter of String card = number of the card
@@ -28,7 +28,6 @@ public class Card {
          */
     	
     	char number = card.charAt(0);
-    	System.out.println(number);
     	char suit = card.charAt(1);
     	int index;
     	
@@ -40,7 +39,7 @@ public class Card {
     	case 'K': index = 13; break;
     	case 'A': index = 14; break;
     	default: index = number - '0';
-    	System.out.println(index); break;
+    	break;
     	}
     	value = PRIMES[index - 2];
     	
