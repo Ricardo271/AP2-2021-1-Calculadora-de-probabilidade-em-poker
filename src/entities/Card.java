@@ -5,8 +5,20 @@ public class Card {
 
 	public final int[] PRIMES = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41};
 	//2,3,4,5,6,7,8,9,10,J,Q,K,A
-	public final int[] PRIMES_SUITS = {43, 47, 53, 59};
-	//spades, hearts, diamonds and clubs
+	
+	//Suits
+	public final int SPADES = 0x8000;
+	public final int HEARTS = 0x4000;
+	public final int DIAMONDS = 0x2000;
+	public final int CLUBS = 0x1000;
+	// |   Spades   |   Hearts   |  Diamonds  |   Clubs   |
+	// 23456789TJQKA23456789TJQKA23456789TJQKA23456789TJQKA
+	// 0001010010000000100000000000000000010000010000000001
+	
+	
+	
+	public final String RANKS = "23456789TJQKA";
+	public final String SUITS = "shdc";
 	
     private int value;
     
@@ -18,6 +30,16 @@ public class Card {
     	this.value = value;
     }
     
+    public Card(int rank, int suit) {
+    	//10001000000000010
+    	value = (1 << (rank + 16)) | suit | (rank << 8) | PRIMES[rank];
+    	//         2^16              2^12       0*2^8        2                      2s
+    	//         2^17              2^12       1*2^8        3  					3s
+    	//	       2^18              2^12       2*2^8        5                      4s
+    	//         2^18              2^13       2*2^8        5                      4h
+    	// 010001 << 1  ==  100010
+    }
+    
     public Card(String card) { 
     	
         /*
@@ -27,31 +49,12 @@ public class Card {
               the final result will be "value"
          */
     	
-    	char number = card.charAt(0);
-    	char suit = card.charAt(1);
-    	int index;
-    	
-    	switch(number)
-    	{
-    	case 'T': index = 10; break;
-    	case 'J': index = 11; break;
-       	case 'Q': index = 12; break;
-    	case 'K': index = 13; break;
-    	case 'A': index = 14; break;
-    	default: index = number - '0';
-    	break;
-    	}
-    	value = PRIMES[index - 2];
-    	
-    	switch(suit)
-    	{
-    	case 's': index = 0; break;
-    	case 'h': index = 1; break;
-    	case 'd': index = 2; break;
-    	case 'c': index = 3; break;
-    	default: break;
-    	}
-    	value *= PRIMES_SUITS[index];
+    	final int rank = RANKS.indexOf(card.charAt(0));
+        final int suit = CLUBS << SUITS.indexOf(card.charAt(1));
+        System.out.println(suit + "e o" + rank);
+        //return Card(rank, suit)
+        value = (1 << (rank + 16)) | suit | (rank << 8) | PRIMES[rank];
+        System.out.println(value);
 
     }
 
