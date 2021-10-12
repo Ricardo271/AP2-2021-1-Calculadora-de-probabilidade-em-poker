@@ -1,15 +1,24 @@
 package aplication;
 
-import entities.Card;
+import entities.Hand;
+import entities.Player;
 
 public class Program {
     
     public static void main(String[] args) {
     	
-    	String card = "9h";
-        Card testing = new Card(card);
-        System.out.println(testing.getCard());
-        
+    }
+
+    public static void round() {
+
+        int playerNumber = 3;
+        Player[] players = new Player[playerNumber];
+
+        for (int i = 0; i < playerNumber; i++) {
+            String[] cardsOnHand = {"9s", "Ac"};
+            players[i] = new Player(i, new Hand(cardsOnHand));
+        }
+
     }
 
 }
