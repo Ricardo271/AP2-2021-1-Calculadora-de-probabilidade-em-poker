@@ -4,32 +4,14 @@ import entities.enums.TableStatus;
 
 public class Table {
 
-	//Pode ser necessario uma list
-    private Card[] cardsOnTable = new Card[5];
+	private String[] cardsOnTable = new String[2];
 
-    private TableStatus status;
-
-    public Table(Card cardsOnTable[], String tableStatus) {
-        this.status = TableStatus.valueOf(tableStatus);
-        this.cardsOnTable = cardsOnTable;
-    }
-
-	public Card[] getCardsOnTable() {
-		return cardsOnTable;
+	public String[] getCardsOnTable() {
+		return this.cardsOnTable;
 	}
 
-	//Pode ser necessario uma list
-	public void setCardsOnTable(Card[] cardsOnTable) {
+	public void setCardsOnTable(String[] cardsOnTable) {
 		this.cardsOnTable = cardsOnTable;
 	}
 
-	public TableStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(TableStatus status) {
-		this.status = status;
-	}
-
-    
 }
