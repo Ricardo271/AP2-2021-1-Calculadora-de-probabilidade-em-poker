@@ -1,12 +1,16 @@
 package aplication;
 
+import java.util.Scanner;
+
 import entities.Hand;
 import entities.Player;
+import entities.Visual;
 
 public class Program {
     
     public static void main(String[] args) {
     	
+    Visual.inicialMenu();
     }
 
     public static void round() {
