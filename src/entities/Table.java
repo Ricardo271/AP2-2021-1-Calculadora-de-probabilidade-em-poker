@@ -1,16 +1,14 @@
 package entities;
 
-import entities.enums.TableStatus;
-
 public class Table {
 
-	private String[] cardsOnTable = new String[2];
+	private Card[] cardsOnTable = new Card[2];
 
-	public String[] getCardsOnTable() {
+	public Card[] getCardsOnTable() {
 		return this.cardsOnTable;
 	}
 
-	public void setCardsOnTable(String[] cardsOnTable) {
+	public void setCardsOnTable(Card[] cardsOnTable) {
 		this.cardsOnTable = cardsOnTable;
 	}
 

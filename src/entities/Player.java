@@ -10,5 +10,12 @@ public class Player {
         this.hand = hand;
     }
 
-    
+    public int getNumber() {
+        return this.number;
+    }
+
+    public Hand getHand() {
+        return this.hand;
+    }
+
 }
