@@ -17,7 +17,7 @@ public class Card {
 			default: index = card.charAt(0) - '0';
 		}
 		this.number = index;
-		this.suit = card.charAt(1);
+		this.suit = Character.toLowerCase(card.charAt(1));
 		this.value = card;
 	}
 
