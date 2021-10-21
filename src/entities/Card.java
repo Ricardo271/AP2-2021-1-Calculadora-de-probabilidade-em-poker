@@ -1,10 +1,10 @@
 package entities;
 
-public class Card {
+public class Card implements Comparable<Card> {
 	
 	private String value;
-	private char suit;
-	private int number;
+	private Character suit;
+	private Integer number;
 	
 	public Card(String card) {
 		int index;
@@ -25,15 +25,23 @@ public class Card {
 		return value;
 	}
 
-	public char getSuit() {
+	public Character getSuit() {
 		return suit;
 	}
 
-	public int getNumber() {
+	public Integer getNumber() {
 		return number;
 	}
 	
 	public String toString() {
 		return this.value;
+	}
+	
+	@Override
+	public int compareTo(Card c) {
+		if (getNumber() == null || c.getNumber() == null) {
+			return 0;
+		}
+		return getNumber().compareTo(c.getNumber());
 	}
 }
