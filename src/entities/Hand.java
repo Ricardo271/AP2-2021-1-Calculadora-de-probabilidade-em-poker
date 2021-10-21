@@ -1,86 +1,149 @@
 package entities;
 
-public class Hand {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
-	private Card[] hand = new Card[7];
-	//private Integer powerOfHand;
-	//private String highestCardInBestHand;
+public class Hand  {
 
-	public Hand(Card[] hand) {
+	// private Card[] hand = new Card[7];
+	private List<Card> hand = new ArrayList<Card>();
+	// private Integer powerOfHand;
+	// private String highestCardInBestHand;
+	
+	private boolean pair;
+	private boolean doublePair;
+	private boolean triplets;
+	private boolean straight;
+	private boolean flush;
+	private boolean fullHouse;
+	private boolean quads;
+	private boolean straightFlush;
+	private boolean royalFlush;
+
+	public Hand(List<Card> hand) {
 		this.hand = hand;
 		sortHand();
 		calculatePower();
 	}
 
-	public Card[] getHand() {
+	public boolean isPair() {
+		return pair;
+	}
+
+	public boolean isDoublePair() {
+		return doublePair;
+	}
+
+	public boolean isTriplets() {
+		return triplets;
+	}
+
+	public boolean isStraight() {
+		return straight;
+	}
+
+	public boolean isFlush() {
+		return flush;
+	}
+
+	public boolean isFullHouse() {
+		return fullHouse;
+	}
+	
+	public boolean isQuads() {
+		return quads;
+	}
+
+	public boolean isStraightFlush() {
+		return straightFlush;
+	}
+
+	public boolean isRoyalFlush() {
+		return royalFlush;
+	}
+
+	public void setHand(List<Card> hand) {
+		this.hand = hand;
+	}
+
+	public void setPair(boolean pair) {
+		System.out.println("Pair is " + pair);
+		this.pair = pair;
+	}
+
+	public void setDoublePair(boolean doublePair) {
+		this.doublePair = doublePair;
+	}
+
+	public void setTriplets(boolean triplets) {
+		System.out.println("Triplets is " + triplets);
+		this.triplets = triplets;
+	}
+
+	public void setStraight(boolean straight) {
+		System.out.println("Straight is " + straight);
+		this.straight = straight;
+	}
+
+	public void setFlush(boolean flush) {
+		System.out.println("Flush is " + flush);
+		this.flush = flush;
+	}
+
+	public void setFullHouse(boolean fullHouse) {
+		this.fullHouse = fullHouse;
+	}
+	
+	public void setQuads(boolean quads) {
+		System.out.println("Quads is " + quads);
+		this.quads = quads;
+	}
+
+	public void setStraightFlush(boolean straightFlush) {
+		this.straightFlush = straightFlush;
+	}
+
+	public void setRoyalFlush(boolean royalFlush) {
+		this.royalFlush = royalFlush;
+	}
+
+	public List<Card> getHand() {
 		return hand;
 	}
 
 	public void calculatePower() {
-		System.out.println("Flush is " + hasFlush());
-		System.out.println("Straight is " + hasStraight());
+		setFlush(hasFlush());
+		setStraight(hasStraight());
 		// hasStraightFlush();
 		// hasRoyalFlush();
-		System.out.println("Quads is " + hasQuads());
+		setQuads(hasQuads());
 		// hasFullHouse();
-		System.out.println("Triplets is " + hasTriplets());
+		setTriplets(hasTriplets());
 		// hasDoublePair();
-		System.out.println("Pair is " + hasPair()); 
-		
-		
-		//todo: distribuir powerOfHand de acordo com a checagem de booleans acima.
+		setPair(hasPair());
 	}
 
 	public void sortHand() {
-		Card tempCard;
-/** ordenando pelo naipe
-*		for (int i = 0; i < 7; i++) {
-*			for (int j = 0; j < 7; j++) {
-*				if (i <= j) {
-*					continue;
-*				} else if (hand[i].getSuit() > hand[j].getSuit()) {
-*					tempCard = hand[i];
-*					hand[i] = hand[j];
-*					hand[j] = tempCard;
-*				}
-*			}
-*		}
-*/
-		// ordenando pelo valor da carta
-		for (int i = 0; i < 7; i++) {
-			for (int j = 0; j < 7; j++) {
-				if (i <= j) {
-					continue;
-				} else if (hand[i].getNumber() < hand[j].getNumber()) {
-					tempCard = hand[i];
-					hand[i] = hand[j];
-					hand[j] = tempCard;
-				}
-			}
-		}
-		System.out.print(hand[0]);
-		System.out.print(hand[1]);
-		System.out.print(hand[2]);
-		System.out.print(hand[3]);
-		System.out.print(hand[4]);
-		System.out.print(hand[5]);
-		System.out.println(hand[6]);
+		hand.sort(Comparator.comparing(Card::getNumber));
+		System.out.println(hand);
 	}
 
-	public boolean hasFlush() {
+	private boolean hasFlush() {
 		int flushCounter = 0;
 		char suitChosen = '0';
 		for (int i = 0; i < 7; i++) {
-			if (suitChosen == hand[i].getSuit()) {
+			if (suitChosen == hand.get(i).getSuit()) {
 				continue;
 			} else {
-				suitChosen = hand[i].getSuit();
+				suitChosen = hand.get(i).getSuit();
 				flushCounter = 1;
 			}
 			for (int j = 0; j < 7; j++) {
 				if (i == j) {
 					continue;
-				} else if (hand[j].getSuit() == suitChosen) {
+				} else if (hand.get(j).getSuit() == suitChosen) {
 					flushCounter++;
 				}
 			}
@@ -91,18 +154,18 @@ public class Hand {
 		return false;
 	}
 
-	public boolean hasStraight() {
+	private boolean hasStraight() {
 		int straightCounter = 0;
 		int chosenNumber = 0;
 		for (int i = 0; i < 7; i += straightCounter) {
-			chosenNumber = hand[i].getNumber();
+			chosenNumber = hand.get(i).getNumber();
 			straightCounter = 1;
 			for (int j = 0; j < 7; j++) {
-				if ( j <= i ) {
+				if (j <= i) {
 					continue;
-				} else if (hand[j].getNumber() - chosenNumber == 1) {
+				} else if (hand.get(j).getNumber() - chosenNumber == 1) {
 					straightCounter++;
-					chosenNumber = hand[j].getNumber();
+					chosenNumber = hand.get(j).getNumber();
 				} else {
 					break;
 				}
@@ -113,17 +176,17 @@ public class Hand {
 		}
 		return false;
 	}
-	public boolean hasQuads() {
+
+	private boolean hasQuads() {
 		int duplicateCounter = 0;
 		int chosenNumber;
 		for (int i = 0; i < 7; i += duplicateCounter) {
-			chosenNumber = hand[i].getNumber();
+			chosenNumber = hand.get(i).getNumber();
 			duplicateCounter = 1;
 			for (int j = 0; j < 7; j++) {
 				if (j <= i) {
 					continue;
-				}
-				else if (chosenNumber == hand[j].getNumber()) {
+				} else if (chosenNumber == hand.get(j).getNumber()) {
 					duplicateCounter++;
 				} else {
 					break;
@@ -135,17 +198,17 @@ public class Hand {
 		}
 		return false;
 	}
-	public boolean hasTriplets() {
+
+	private boolean hasTriplets() {
 		int duplicateCounter = 0;
 		int chosenNumber;
 		for (int i = 0; i < 7; i += duplicateCounter) {
-			chosenNumber = hand[i].getNumber();
+			chosenNumber = hand.get(i).getNumber();
 			duplicateCounter = 1;
 			for (int j = 0; j < 7; j++) {
 				if (j <= i) {
 					continue;
-				}
-				else if (chosenNumber == hand[j].getNumber()) {
+				} else if (chosenNumber == hand.get(j).getNumber()) {
 					duplicateCounter++;
 				} else {
 					break;
@@ -157,17 +220,17 @@ public class Hand {
 		}
 		return false;
 	}
-	public boolean hasPair() {
+
+	private boolean hasPair() {
 		int duplicateCounter = 0;
 		int chosenNumber;
 		for (int i = 0; i < 7; i += duplicateCounter) {
-			chosenNumber = hand[i].getNumber();
+			chosenNumber = hand.get(i).getNumber();
 			duplicateCounter = 1;
 			for (int j = 0; j < 7; j++) {
 				if (j <= i) {
 					continue;
-				}
-				else if (chosenNumber == hand[j].getNumber()) {
+				} else if (chosenNumber == hand.get(j).getNumber()) {
 					duplicateCounter++;
 				} else {
 					break;
@@ -179,20 +242,26 @@ public class Hand {
 		}
 		return false;
 	}
-	public boolean hasFullHouse() {
-		//todo
+
+	private boolean hasFullHouse() {
+		// todo
 		return false;
 	}
-	public boolean hasStraightFlush() {
-		//todo
+
+	private boolean hasStraightFlush() {
+		// todo
 		return false;
 	}
-	public boolean hasRoyalFlush() {
-		//todo
+
+	private boolean hasRoyalFlush() {
+		// todo
 		return false;
 	}
-	public boolean hasDoublePair() {
-		//todo
+
+	private boolean hasDoublePair() {
+		// todo
 		return false;
 	}
+
+	
 }
