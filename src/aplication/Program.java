@@ -62,6 +62,7 @@ public class Program {
         	tableCards.add(deck.removeCard());
         
         for (int i = 0; i < playerNumber; i++) {
+<<<<<<< HEAD
             List<Card> playerHand = new ArrayList<Card>();
             for (int j = 0; j < 2; j++)
             	playerHand.add(deck.removeCard());
@@ -72,9 +73,14 @@ public class Program {
             System.out.printf("\nMão do Jogador %d: %s\n", i+1, playerHand.toString());
             System.out.println("Quanto ele pagou? (digite 0 se ele saiu da mesa) $");
             
+=======
+            String[] cardsOnHand = {};
+            players[i] = new Player(i, new Hand(cardsOnHand));
+>>>>>>> 219d8dd51d6403a35fe63e995d7ce4c32375b560
         }
         
     }
+<<<<<<< HEAD
     
     public static<T> List<T> merge(List<T> list1, List<T> list2)
     {
@@ -85,5 +91,7 @@ public class Program {
      
         return list;
     }
+=======
+>>>>>>> 219d8dd51d6403a35fe63e995d7ce4c32375b560
 
 }

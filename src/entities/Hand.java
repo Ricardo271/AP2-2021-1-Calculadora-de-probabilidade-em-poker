@@ -69,47 +69,38 @@ public class Hand  {
 	}
 
 	public void setPair(boolean pair) {
-		System.out.println("Pair is " + pair);
 		this.pair = pair;
 	}
 
 	public void setDoublePair(boolean doublePair) {
-		System.out.println("Double Pair is " + doublePair);
 		this.doublePair = doublePair;
 	}
 
 	public void setTriplets(boolean triplets) {
-		System.out.println("Triplets is " + triplets);
 		this.triplets = triplets;
 	}
 
 	public void setStraight(boolean straight) {
-		System.out.println("Straight is " + straight);
 		this.straight = straight;
 	}
 
 	public void setFlush(boolean flush) {
-		System.out.println("Flush is " + flush);
 		this.flush = flush;
 	}
 
 	public void setFullHouse(boolean fullHouse) {
-		System.out.println("Full House is " + fullHouse);
 		this.fullHouse = fullHouse;
 	}
 	
 	public void setQuads(boolean quads) {
-		System.out.println("Quads is " + quads);
 		this.quads = quads;
 	}
 
 	public void setStraightFlush(boolean straightFlush) {
-		System.out.println("Straight Flush is " + straightFlush);
 		this.straightFlush = straightFlush;
 	}
 
 	public void setRoyalFlush(boolean royalFlush) {
-		System.out.println("Royal Flush is " + royalFlush);
 		this.royalFlush = royalFlush;
 	}
 
@@ -132,7 +123,6 @@ public class Hand  {
 
 	public void sortHand() {
 		hand.sort(Comparator.comparing(Card::getNumber));
-		System.out.println(hand);
 	}
 
 	private boolean hasFlush() {
