@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -11,6 +12,8 @@ public class Hand  {
 	private List<Card> hand = new ArrayList<Card>();
 	// private Integer powerOfHand;
 	// private String highestCardInBestHand;
+	
+	private List<Card> strongestHand = new ArrayList<Card>();
 	
 	private boolean pair;
 	private boolean doublePair;
@@ -24,7 +27,7 @@ public class Hand  {
 
 	public Hand(List<Card> hand) {
 		this.hand = hand;
-		sortHand();
+		sortHand(this.hand);
 		calculatePower();
 	}
 
@@ -67,6 +70,29 @@ public class Hand  {
 	public void setHand(List<Card> hand) {
 		this.hand = hand;
 	}
+	
+	public void addCard(Card card) {
+		this.hand.add(card);
+		sortHand(this.hand);
+	}
+	
+	public void removeCard(Card card) {
+		this.hand.remove(card);
+	}
+	
+	public void resetHand() {
+		this.hand.clear();
+		this.strongestHand.clear();
+		this.pair = false;
+		this.doublePair = false;
+		this.triplets = false;
+		this.straight = false;
+		this.flush = false;
+		this.fullHouse = false;
+		this.quads = false;
+		this.straightFlush = false;
+		this.royalFlush = false;
+	}
 
 	public void setPair(boolean pair) {
 		this.pair = pair;
@@ -108,6 +134,10 @@ public class Hand  {
 		return hand;
 	}
 
+	public List<Card> getStrongestHand() {
+		return strongestHand;
+	}
+
 	public void calculatePower() {
 		setPair(hasPair());
 		setDoublePair(hasDoublePair());
@@ -121,7 +151,7 @@ public class Hand  {
 		setRoyalFlush(hasRoyalFlush());
 	}
 
-	public void sortHand() {
+	public void sortHand(List<Card> hand) {
 		hand.sort(Comparator.comparing(Card::getNumber));
 	}
 
@@ -143,6 +173,16 @@ public class Hand  {
 				}
 			}
 			if (flushCounter >= 5) {
+				strongestHand.clear();
+				for (int j = 0; j < hand.size(); j++) {
+					if (hand.get(j).getSuit() == suitChosen) {
+						strongestHand.add(hand.get(j));
+					}
+				}
+				sortHand(strongestHand);
+				while (strongestHand.size() > 5){
+					strongestHand.remove(0);
+				} 
 				return true;
 			}
 		}
@@ -152,8 +192,10 @@ public class Hand  {
 	private boolean hasStraight() {
 		int straightCounter = 0;
 		int chosenNumber = 0;
+		int lowerNumber;
 		for (int i = 0; i < hand.size(); i += straightCounter) {
 			chosenNumber = hand.get(i).getNumber();
+			lowerNumber = chosenNumber;
 			straightCounter = 1;
 			for (int j = 0; j < hand.size(); j++) {
 				if (j <= i) {
@@ -166,6 +208,19 @@ public class Hand  {
 				}
 			}
 			if (straightCounter >= 5) {
+				strongestHand.clear();
+				int counter = 0;
+				for (int j = 0; j < hand.size(); j++) {
+					if(hand.get(j).getNumber() == lowerNumber + counter) {
+						strongestHand.add(hand.get(j));
+						counter++;
+					}
+				}
+				sortHand(strongestHand);
+				while (strongestHand.size() > 5) {
+					strongestHand.remove(0);
+				} 
+				
 				return true;
 			}
 		}
@@ -191,6 +246,22 @@ public class Hand  {
 				}
 			}
 			if (duplicateCounter == 4) {
+				strongestHand.clear();
+				for (int n = 0; n < hand.size(); n++) {
+					if (hand.get(n).getNumber() == chosenNumber) {
+						strongestHand.add(hand.get(n));
+					}
+				}
+
+				for (int m = 1; m < hand.size(); m++) {
+					if (hand.get(hand.size()-m).getNumber() == chosenNumber) {
+						m++;
+					} else {
+						strongestHand.add(hand.get(hand.size()-m));
+						break;
+					}
+				}
+				sortHand(strongestHand);
 				return true;
 			}
 		}
@@ -216,6 +287,27 @@ public class Hand  {
 				}
 			}
 			if (duplicateCounter >= 3) {
+				strongestHand.clear();
+				for (int n = 0; n < hand.size(); n++) {
+					if (hand.get(n).getNumber() == chosenNumber) {
+						strongestHand.add(hand.get(n));
+					}
+				}
+
+				for (int m = 1; m < hand.size(); m++) {
+					if (hand.get(hand.size()-m).getNumber() == chosenNumber) {
+						continue;
+					} else {
+						strongestHand.add(hand.get(hand.size()-m));
+						if (strongestHand.size() != 5) {
+							continue;
+						} else {
+							break;
+						}
+					}
+				}
+				sortHand(strongestHand);
+
 				return true;
 			}
 		}
@@ -238,6 +330,26 @@ public class Hand  {
 				}
 			}
 			if (duplicateCounter >= 2) {
+				strongestHand.clear();
+				for (int n = 0; n < hand.size(); n++) {
+					if (hand.get(n).getNumber() == chosenNumber) {
+						strongestHand.add(hand.get(n));
+					}
+				}
+
+				for (int m = 1; m < hand.size(); m++) {
+					if (hand.get(hand.size()-m).getNumber() == chosenNumber) {
+						continue;
+					} else {
+						strongestHand.add(hand.get(hand.size()-m));
+						if (strongestHand.size() != 5) {
+							continue;
+						} else {
+							break;
+						}
+					}
+				}
+				sortHand(strongestHand);
 				return true;
 			}
 		}
@@ -280,6 +392,20 @@ public class Hand  {
 			}
 		}
 		if(tripletNumber != 0 && pairNumber != 0 && tripletNumber != pairNumber) {
+			strongestHand.clear();
+			int tripletCounter=0, doubleCounter=0;
+			for (int j = 0; j < hand.size(); j++) {
+				if (hand.get(j).getNumber() == tripletNumber && tripletCounter != 3) {
+					strongestHand.add(hand.get(j));
+					tripletCounter++;
+				}
+				else if (hand.get(j).getNumber() == pairNumber && doubleCounter != 2) {
+					strongestHand.add(hand.get(j));
+					doubleCounter++;
+				}
+			}
+			sortHand(strongestHand);
+			
 			return true;
 		}
 		
@@ -291,10 +417,11 @@ public class Hand  {
 			return false;
 		}
 		int straightFlushCounter = 0;
-		int chosenNumber = 0;
+		int chosenNumber=0, lowerNumber=0;
 		int chosenSuit = 0;
 		for (int i = 0; i < hand.size(); i += straightFlushCounter) {
 			chosenNumber = hand.get(i).getNumber();
+			lowerNumber = chosenNumber;
 			chosenSuit = hand.get(i).getSuit();
 			straightFlushCounter = 1;
 			for (int j = 0; j < hand.size(); j++) {
@@ -308,7 +435,22 @@ public class Hand  {
 				}
 			}
 			if (straightFlushCounter >= 5) {
+				strongestHand.clear();
+				int counter = 0;
+				for (int j = 0; j < hand.size(); j++) {
+					if(hand.get(j).getNumber() == lowerNumber + counter &&
+							hand.get(j).getSuit() == chosenSuit) {
+						strongestHand.add(hand.get(j));
+						counter++;
+					}
+				}
+				sortHand(strongestHand);
+				while (strongestHand.size() > 5) {
+					strongestHand.remove(0);
+				} 
+				
 				return true;
+
 			}
 		}
 		return false;
@@ -338,6 +480,16 @@ public class Hand  {
 				}
 			}
 			if (royalFlushCounter >= 5 && chosenNumber == 14) {
+				strongestHand.clear();
+				for (int j = 0; j < hand.size(); j++) {
+					if (hand.get(j).getSuit() == chosenSuit) {
+						strongestHand.add(hand.get(j));
+					}
+				}
+				sortHand(strongestHand);
+				while (strongestHand.size() > 5){
+					strongestHand.remove(0);
+				} 
 				return true;
 			}
 		}
@@ -369,6 +521,30 @@ public class Hand  {
 					firstPairDetected = chosenNumber;
 				} else {
 					secondPairDetected = chosenNumber;
+					
+					strongestHand.clear();
+					
+					int firstPairCounter=0, secondPairCounter=0;
+					
+					for (int m = 0; m < hand.size(); m++) {
+						if (hand.get(m).getNumber() == firstPairDetected && firstPairCounter != 2) {
+							firstPairCounter++;
+							strongestHand.add(hand.get(m));
+						}
+						else if (hand.get(m).getNumber() == secondPairDetected && secondPairCounter != 2) {
+							secondPairCounter++;
+							strongestHand.add(hand.get(m));
+						}
+					}
+					
+					for (int n = 1; n < hand.size(); n++) {
+						if (hand.get(hand.size() - n).getNumber() != secondPairDetected
+							&& hand.get(hand.size() - n).getNumber() != firstPairDetected) {
+							strongestHand.add(hand.get(hand.size() - n));
+							break;
+						}
+					}
+					sortHand(strongestHand);
 					return true;
 				}
 			}
@@ -377,4 +553,8 @@ public class Hand  {
 		
 	}
 
+	public String toString() {
+		return Arrays.toString(hand.toArray());
+	}
+	
 }
