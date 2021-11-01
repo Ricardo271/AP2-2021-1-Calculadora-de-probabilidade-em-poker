@@ -8,10 +8,9 @@ import java.util.List;
 
 public class Hand  {
 
-	// private Card[] hand = new Card[7];
+
 	private List<Card> hand = new ArrayList<Card>();
-	// private Integer powerOfHand;
-	// private String highestCardInBestHand;
+	private Integer powerOfHand;
 	
 	private List<Card> strongestHand = new ArrayList<Card>();
 	
@@ -29,6 +28,10 @@ public class Hand  {
 		this.hand = hand;
 		sortHand(this.hand);
 		calculatePower();
+	}
+	
+	public Hand() {
+		
 	}
 
 	public boolean isPair() {
@@ -74,10 +77,16 @@ public class Hand  {
 	public void addCard(Card card) {
 		this.hand.add(card);
 		sortHand(this.hand);
+		if (hand.size() >= 5 ) {
+			calculatePower();
+		}
 	}
 	
 	public void removeCard(Card card) {
 		this.hand.remove(card);
+		if (hand.size() >= 5 ) {
+			calculatePower();
+		}
 	}
 	
 	public void resetHand() {
@@ -142,13 +151,51 @@ public class Hand  {
 		setPair(hasPair());
 		setDoublePair(hasDoublePair());
 		setTriplets(hasTriplets());
-		setQuads(hasQuads());
 		setStraight(hasStraight());
 		setFlush(hasFlush());
 		setFullHouse(hasFullHouse());
 		setQuads(hasQuads());
 		setStraightFlush(hasStraightFlush());
 		setRoyalFlush(hasRoyalFlush());
+		
+		if (isPair()) {
+			powerOfHand = 10;
+		}
+		if (isDoublePair()) {
+			powerOfHand = 100;
+		}
+		if (isTriplets()) {
+			powerOfHand = 1000;
+		}
+		if (isStraight()) {
+			powerOfHand = 10000;
+		}
+		if (isFlush()) {
+			powerOfHand = 100000;
+		}
+		if (isFullHouse()) {
+			powerOfHand = 1000000;
+		}
+		if (isQuads()) {
+			powerOfHand = 10000000;
+		}
+		if (isStraightFlush()) {
+			powerOfHand = 100000000;
+		}
+		if (isRoyalFlush()) {
+			powerOfHand = 1000000000;
+		}
+	}
+	
+	public Integer tieBreak(Hand h) {
+		for (int i = 0; i < 5; i++) {
+			if (h.getStrongestHand().get(i).getNumber() > strongestHand.get(i).getNumber()) {
+				return 2;
+			} else if (h.getStrongestHand().get(i).getNumber() < strongestHand.get(i).getNumber()) {
+				return 1;
+			}
+		}
+		return 0;
 	}
 
 	public void sortHand(List<Card> hand) {
