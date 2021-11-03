@@ -9,11 +9,11 @@ import java.util.List;
 public class Hand  {
 
 
-	private List<Card> hand = new ArrayList<Card>();
-	private Integer powerOfHand;
-	
-	private List<Card> strongestHand = new ArrayList<Card>();
-	
+	protected List<Card> hand = new ArrayList<Card>();
+	protected Integer powerOfHand;
+
+	protected List<Card> strongestHand = new ArrayList<Card>();
+
 	private boolean pair;
 	private boolean doublePair;
 	private boolean triplets;
@@ -29,9 +29,9 @@ public class Hand  {
 		sortHand(this.hand);
 		calculatePower();
 	}
-	
+
 	public Hand() {
-		
+
 	}
 
 	public boolean isPair() {
@@ -57,7 +57,7 @@ public class Hand  {
 	public boolean isFullHouse() {
 		return fullHouse;
 	}
-	
+
 	public boolean isQuads() {
 		return quads;
 	}
@@ -73,7 +73,7 @@ public class Hand  {
 	public void setHand(List<Card> hand) {
 		this.hand = hand;
 	}
-	
+
 	public void addCard(Card card) {
 		this.hand.add(card);
 		sortHand(this.hand);
@@ -81,14 +81,14 @@ public class Hand  {
 			calculatePower();
 		}
 	}
-	
+
 	public void removeCard(Card card) {
 		this.hand.remove(card);
 		if (hand.size() >= 5 ) {
 			calculatePower();
 		}
 	}
-	
+
 	public void resetHand() {
 		this.hand.clear();
 		this.strongestHand.clear();
@@ -126,7 +126,7 @@ public class Hand  {
 	public void setFullHouse(boolean fullHouse) {
 		this.fullHouse = fullHouse;
 	}
-	
+
 	public void setQuads(boolean quads) {
 		this.quads = quads;
 	}
@@ -157,7 +157,7 @@ public class Hand  {
 		setQuads(hasQuads());
 		setStraightFlush(hasStraightFlush());
 		setRoyalFlush(hasRoyalFlush());
-		
+		powerOfHand = 1;
 		if (isPair()) {
 			powerOfHand = 10;
 		}
@@ -186,7 +186,7 @@ public class Hand  {
 			powerOfHand = 1000000000;
 		}
 	}
-	
+
 	public Integer tieBreak(Hand h) {
 		for (int i = 0; i < 5; i++) {
 			if (h.getStrongestHand().get(i).getNumber() > strongestHand.get(i).getNumber()) {
@@ -202,7 +202,7 @@ public class Hand  {
 		hand.sort(Comparator.comparing(Card::getNumber));
 	}
 
-	private boolean hasFlush() {
+	protected boolean hasFlush() {
 		int flushCounter = 0;
 		char suitChosen = '0';
 		for (int i = 0; i < hand.size(); i++) {
@@ -220,23 +220,27 @@ public class Hand  {
 				}
 			}
 			if (flushCounter >= 5) {
-				strongestHand.clear();
-				for (int j = 0; j < hand.size(); j++) {
-					if (hand.get(j).getSuit() == suitChosen) {
-						strongestHand.add(hand.get(j));
+
+				if (hand.size() > 5) {
+					strongestHand.clear();
+					for (int j = 0; j < hand.size(); j++) {
+						if (hand.get(j).getSuit() == suitChosen) {
+							strongestHand.add(hand.get(j));
+						}
 					}
-				}
-				sortHand(strongestHand);
-				while (strongestHand.size() > 5){
-					strongestHand.remove(0);
+					sortHand(strongestHand);
+					while (strongestHand.size() > 5){
+						strongestHand.remove(0);
+					} 
 				} 
+
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean hasStraight() {
+	protected boolean hasStraight() {
 		int straightCounter = 0;
 		int chosenNumber = 0;
 		int lowerNumber;
@@ -255,26 +259,28 @@ public class Hand  {
 				}
 			}
 			if (straightCounter >= 5) {
-				strongestHand.clear();
-				int counter = 0;
-				for (int j = 0; j < hand.size(); j++) {
-					if(hand.get(j).getNumber() == lowerNumber + counter) {
-						strongestHand.add(hand.get(j));
-						counter++;
+				if (hand.size() > 5) {
+					strongestHand.clear();
+					int counter = 0;
+					for (int j = 0; j < hand.size(); j++) {
+						if(hand.get(j).getNumber() == lowerNumber + counter) {
+							strongestHand.add(hand.get(j));
+							counter++;
+						}
 					}
-				}
-				sortHand(strongestHand);
-				while (strongestHand.size() > 5) {
-					strongestHand.remove(0);
+					sortHand(strongestHand);
+					while (strongestHand.size() > 5) {
+						strongestHand.remove(0);
+					} 
 				} 
-				
+
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean hasQuads() {
+	protected boolean hasQuads() {
 		int duplicateCounter = 0;
 		int chosenNumber;
 		if (!isPair()) {
@@ -293,29 +299,31 @@ public class Hand  {
 				}
 			}
 			if (duplicateCounter == 4) {
-				strongestHand.clear();
-				for (int n = 0; n < hand.size(); n++) {
-					if (hand.get(n).getNumber() == chosenNumber) {
-						strongestHand.add(hand.get(n));
+				if (hand.size() > 5) {
+					strongestHand.clear();
+					for (int n = 0; n < hand.size(); n++) {
+						if (hand.get(n).getNumber() == chosenNumber) {
+							strongestHand.add(hand.get(n));
+						}
 					}
-				}
 
-				for (int m = 1; m < hand.size(); m++) {
-					if (hand.get(hand.size()-m).getNumber() == chosenNumber) {
-						m++;
-					} else {
-						strongestHand.add(hand.get(hand.size()-m));
-						break;
+					for (int m = 1; m < hand.size(); m++) {
+						if (hand.get(hand.size()-m).getNumber() == chosenNumber) {
+							m++;
+						} else {
+							strongestHand.add(hand.get(hand.size()-m));
+							break;
+						}
 					}
-				}
-				sortHand(strongestHand);
+					sortHand(strongestHand);
+				} 
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean hasTriplets() {
+	protected boolean hasTriplets() {
 		int duplicateCounter = 0;
 		int chosenNumber;
 		if (!isPair()) {
@@ -334,26 +342,28 @@ public class Hand  {
 				}
 			}
 			if (duplicateCounter >= 3) {
-				strongestHand.clear();
-				for (int n = 0; n < hand.size(); n++) {
-					if (hand.get(n).getNumber() == chosenNumber) {
-						strongestHand.add(hand.get(n));
-					}
-				}
-
-				for (int m = 1; m < hand.size(); m++) {
-					if (hand.get(hand.size()-m).getNumber() == chosenNumber) {
-						continue;
-					} else {
-						strongestHand.add(hand.get(hand.size()-m));
-						if (strongestHand.size() != 5) {
-							continue;
-						} else {
-							break;
+				if (hand.size() > 5) {
+					strongestHand.clear();
+					for (int n = 0; n < hand.size(); n++) {
+						if (hand.get(n).getNumber() == chosenNumber) {
+							strongestHand.add(hand.get(n));
 						}
 					}
-				}
-				sortHand(strongestHand);
+
+					for (int m = 1; m < hand.size(); m++) {
+						if (hand.get(hand.size()-m).getNumber() == chosenNumber) {
+							continue;
+						} else {
+							strongestHand.add(hand.get(hand.size()-m));
+							if (strongestHand.size() != 5) {
+								continue;
+							} else {
+								break;
+							}
+						}
+					}
+					sortHand(strongestHand);
+				} 
 
 				return true;
 			}
@@ -361,7 +371,7 @@ public class Hand  {
 		return false;
 	}
 
-	private boolean hasPair() {
+	protected boolean hasPair() {
 		int duplicateCounter = 0;
 		int chosenNumber;
 		for (int i = 0; i < hand.size(); i += duplicateCounter) {
@@ -377,33 +387,35 @@ public class Hand  {
 				}
 			}
 			if (duplicateCounter >= 2) {
-				strongestHand.clear();
-				for (int n = 0; n < hand.size(); n++) {
-					if (hand.get(n).getNumber() == chosenNumber) {
-						strongestHand.add(hand.get(n));
-					}
-				}
-
-				for (int m = 1; m < hand.size(); m++) {
-					if (hand.get(hand.size()-m).getNumber() == chosenNumber) {
-						continue;
-					} else {
-						strongestHand.add(hand.get(hand.size()-m));
-						if (strongestHand.size() != 5) {
-							continue;
-						} else {
-							break;
+				if (hand.size() > 5) {
+					strongestHand.clear();
+					for (int n = 0; n < hand.size(); n++) {
+						if (hand.get(n).getNumber() == chosenNumber) {
+							strongestHand.add(hand.get(n));
 						}
 					}
+
+					for (int m = 1; m < hand.size(); m++) {
+						if (hand.get(hand.size()-m).getNumber() == chosenNumber) {
+							continue;
+						} else {
+							strongestHand.add(hand.get(hand.size()-m));
+							if (strongestHand.size() != 5) {
+								continue;
+							} else {
+								break;
+							}
+						}
+					}
+					sortHand(strongestHand);
 				}
-				sortHand(strongestHand);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean hasFullHouse() {
+	protected boolean hasFullHouse() {
 		if (!isTriplets()) {
 			return false;
 		} 
@@ -439,27 +451,28 @@ public class Hand  {
 			}
 		}
 		if(tripletNumber != 0 && pairNumber != 0 && tripletNumber != pairNumber) {
-			strongestHand.clear();
-			int tripletCounter=0, doubleCounter=0;
-			for (int j = 0; j < hand.size(); j++) {
-				if (hand.get(j).getNumber() == tripletNumber && tripletCounter != 3) {
-					strongestHand.add(hand.get(j));
-					tripletCounter++;
+			if (hand.size() > 5) {
+				strongestHand.clear();
+				int tripletCounter=0, doubleCounter=0;
+				for (int j = 0; j < hand.size(); j++) {
+					if (hand.get(j).getNumber() == tripletNumber && tripletCounter != 3) {
+						strongestHand.add(hand.get(j));
+						tripletCounter++;
+					}
+					else if (hand.get(j).getNumber() == pairNumber && doubleCounter != 2) {
+						strongestHand.add(hand.get(j));
+						doubleCounter++;
+					}
 				}
-				else if (hand.get(j).getNumber() == pairNumber && doubleCounter != 2) {
-					strongestHand.add(hand.get(j));
-					doubleCounter++;
-				}
+				sortHand(strongestHand);
 			}
-			sortHand(strongestHand);
-			
 			return true;
 		}
-		
+
 		return false;
 	}
 
-	private boolean hasStraightFlush() {
+	protected boolean hasStraightFlush() {
 		if(!isFlush() && !isStraight()) {
 			return false;
 		}
@@ -482,20 +495,21 @@ public class Hand  {
 				}
 			}
 			if (straightFlushCounter >= 5) {
-				strongestHand.clear();
-				int counter = 0;
-				for (int j = 0; j < hand.size(); j++) {
-					if(hand.get(j).getNumber() == lowerNumber + counter &&
-							hand.get(j).getSuit() == chosenSuit) {
-						strongestHand.add(hand.get(j));
-						counter++;
+				if (hand.size() > 5) {
+					strongestHand.clear();
+					int counter = 0;
+					for (int j = 0; j < hand.size(); j++) {
+						if(hand.get(j).getNumber() == lowerNumber + counter &&
+								hand.get(j).getSuit() == chosenSuit) {
+							strongestHand.add(hand.get(j));
+							counter++;
+						}
 					}
+					sortHand(strongestHand);
+					while (strongestHand.size() > 5) {
+						strongestHand.remove(0);
+					} 
 				}
-				sortHand(strongestHand);
-				while (strongestHand.size() > 5) {
-					strongestHand.remove(0);
-				} 
-				
 				return true;
 
 			}
@@ -503,12 +517,12 @@ public class Hand  {
 		return false;
 	}
 
-	private boolean hasRoyalFlush() {
+	protected boolean hasRoyalFlush() {
 		if(!isStraightFlush()) {
 			return false;
 		}
-		
-		
+
+
 		int royalFlushCounter = 0;
 		int chosenNumber = 0;
 		int chosenSuit = 0;
@@ -527,27 +541,29 @@ public class Hand  {
 				}
 			}
 			if (royalFlushCounter >= 5 && chosenNumber == 14) {
-				strongestHand.clear();
-				for (int j = 0; j < hand.size(); j++) {
-					if (hand.get(j).getSuit() == chosenSuit) {
-						strongestHand.add(hand.get(j));
+				if (hand.size() > 5) {
+					strongestHand.clear();
+					for (int j = 0; j < hand.size(); j++) {
+						if (hand.get(j).getSuit() == chosenSuit) {
+							strongestHand.add(hand.get(j));
+						}
 					}
+					sortHand(strongestHand);
+					while (strongestHand.size() > 5){
+						strongestHand.remove(0);
+					} 
 				}
-				sortHand(strongestHand);
-				while (strongestHand.size() > 5){
-					strongestHand.remove(0);
-				} 
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean hasDoublePair() {
+	protected boolean hasDoublePair() {
 		if(!isPair()) {
 			return false;
 		}
-		
+
 		int duplicateCounter = 0;
 		int chosenNumber;
 		int firstPairDetected = 0, secondPairDetected = 0;
@@ -568,40 +584,41 @@ public class Hand  {
 					firstPairDetected = chosenNumber;
 				} else {
 					secondPairDetected = chosenNumber;
-					
-					strongestHand.clear();
-					
-					int firstPairCounter=0, secondPairCounter=0;
-					
-					for (int m = 0; m < hand.size(); m++) {
-						if (hand.get(m).getNumber() == firstPairDetected && firstPairCounter != 2) {
-							firstPairCounter++;
-							strongestHand.add(hand.get(m));
+					if (hand.size() > 5) {
+						strongestHand.clear();
+
+						int firstPairCounter=0, secondPairCounter=0;
+
+						for (int m = 0; m < hand.size(); m++) {
+							if (hand.get(m).getNumber() == firstPairDetected && firstPairCounter != 2) {
+								firstPairCounter++;
+								strongestHand.add(hand.get(m));
+							}
+							else if (hand.get(m).getNumber() == secondPairDetected && secondPairCounter != 2) {
+								secondPairCounter++;
+								strongestHand.add(hand.get(m));
+							}
 						}
-						else if (hand.get(m).getNumber() == secondPairDetected && secondPairCounter != 2) {
-							secondPairCounter++;
-							strongestHand.add(hand.get(m));
+
+						for (int n = 1; n < hand.size(); n++) {
+							if (hand.get(hand.size() - n).getNumber() != secondPairDetected
+									&& hand.get(hand.size() - n).getNumber() != firstPairDetected) {
+								strongestHand.add(hand.get(hand.size() - n));
+								break;
+							}
 						}
+						sortHand(strongestHand);
 					}
-					
-					for (int n = 1; n < hand.size(); n++) {
-						if (hand.get(hand.size() - n).getNumber() != secondPairDetected
-							&& hand.get(hand.size() - n).getNumber() != firstPairDetected) {
-							strongestHand.add(hand.get(hand.size() - n));
-							break;
-						}
-					}
-					sortHand(strongestHand);
 					return true;
 				}
 			}
 		}
 		return false;
-		
+
 	}
 
 	public String toString() {
 		return Arrays.toString(hand.toArray());
 	}
-	
+
 }
