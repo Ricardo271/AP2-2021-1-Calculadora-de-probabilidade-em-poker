@@ -28,21 +28,21 @@ p1 = As, Jc                     -$ 100,00
 p2= 3c, 6d                      -$ 100,00
 p3= 8c, 9s      winner          +$ 200,00
 
-# round 1 #
+# round 2 #
 table = 4s, 9d, Ks, 7c, 2c
 p1 = As, Jc                     -$ 100,00
 p2= 3c, 6d                      -$ 100,00
 p3= 8c, 9s      winner          +$ 200,00
 
 
-# round 1 #
+# round 3 #
 table = 4s, 9d, Ks, 7c, 2c
 p1 = As, Jc                     -$ 100,00
 p2= 3c, 6d                      -$ 100,00
 p3= 8c, 9s      winner          +$ 200,00
 
 
-# round 1 #
+# round 4 #
 table = 4s, 9d, Ks, 7c, 2c
 p1 = As, Jc                     -$ 100,00
 p2= 3c, 6d                      -$ 100,00
