@@ -9,6 +9,11 @@ public class FiveCardDrawHand extends Hand{
 		strongestHand = hand;
 	}
 	
+	//Escolha um modo de jogo
+	//T - Teaxdhoaiujhfd
+	//F = fjoiasdjf
+	//L = tasvslk
+	
 	public boolean swap(List<Card> cardsToRemove, List<Card> cardsToAdd) {
 		if (cardsToRemove.size() == cardsToAdd.size()) {
 			for (int i = 0; i < cardsToRemove.size(); i++) {
