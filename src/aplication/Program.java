@@ -77,7 +77,7 @@ public class Program {
         //---------------------------------Next round of bets---------------------------------
     	System.out.printf("\n\n------- Poker Scores ------- \n\n");
         System.out.printf("Segunda rodada de apostas\n");
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < playerNumber; i++) {
         	 System.out.printf("\nQuanto o jogador %d pagou? (digite 0 se ele saiu da mesa) $", i+1);
              players[i].addBet(sc.nextDouble());
         }
@@ -88,7 +88,7 @@ public class Program {
         //---------------------------------Next round of bets---------------------------------
     	System.out.printf("\n\n------- Poker Scores ------- \n\n");
         System.out.printf("terceira rodada de apostas\n");
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < playerNumber; i++) {
         	 System.out.printf("\nQuanto o jogador %d pagou? (digite 0 se ele saiu da mesa) $", i+1);
              players[i].addBet(sc.nextDouble());
         }
@@ -96,6 +96,46 @@ public class Program {
         System.out.printf("\nCartas da mesa: ");
         System.out.println(tableCards.subList(0,5).toString());
         
+        //-------------------------------------End of Round-----------------------------------
+        int score=0;
+        List<Player> biggestScore = new ArrayList<Player>();
+        for (Player player : players) {
+        	if (player.getFullHand().getPowerOfHand() > score) {
+        		biggestScore.clear();
+        		biggestScore.add(player);
+        		score = player.getFullHand().getPowerOfHand();
+        	}
+        	else if (player.getFullHand().getPowerOfHand() == score) {
+        		if (biggestScore.size() == 0) {
+        			biggestScore.add(player);
+        		}
+        		else {
+        			int response = player.getFullHand().tieBreak(biggestScore.get(0).getFullHand());
+        			switch (response) {
+        			case 0:
+        				biggestScore.add(player);
+        				break;
+        			case 1:
+        				biggestScore.clear();
+        				biggestScore.add(player);
+        				break;
+        			}
+        		}
+        	}
+        }
+        System.out.printf("\n\n------- Poker Scores ------- \n\n");
+        System.out.println("# Round 1 #\n");
+        System.out.printf("Cartas da mesa: ");
+        System.out.println(tableCards.subList(0,5).toString());
+        
+        for (int i = 0; playerNumber > i; i++) {
+        	System.out.printf("\nJogador %d: %s", i+1, players[i].getFullHand().getStrongestHand().toString());
+        	if (players[i].equals(biggestScore.get(0))) {
+        		System.out.printf("\tVencedor\t");
+        		System.out.println("+ $%f"  );
+        	}
+        	
+        }
     }
 
     
@@ -108,5 +148,5 @@ public class Program {
      
         return list;
     }
-
+    
 }
