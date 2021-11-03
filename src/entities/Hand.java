@@ -147,6 +147,10 @@ public class Hand  {
 		return strongestHand;
 	}
 
+	public Integer getPowerOfHand() {
+		return powerOfHand;
+	}
+
 	public void calculatePower() {
 		setPair(hasPair());
 		setDoublePair(hasDoublePair());
@@ -184,6 +188,11 @@ public class Hand  {
 		}
 		if (isRoyalFlush()) {
 			powerOfHand = 1000000000;
+		}
+		if (powerOfHand == 1) {
+			for (int i = 0; i < 5; i++) {
+				strongestHand.add(hand.get(i));
+			}
 		}
 	}
 
