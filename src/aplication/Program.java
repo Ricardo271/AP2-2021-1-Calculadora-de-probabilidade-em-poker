@@ -87,7 +87,7 @@ public class Program {
         
         //---------------------------------Next round of bets---------------------------------
     	System.out.printf("\n\n------- Poker Scores ------- \n\n");
-        System.out.printf("terceira rodada de apostas\n");
+        System.out.printf("Terceira rodada de apostas\n");
         for (int i = 0; i < playerNumber; i++) {
         	 System.out.printf("\nQuanto o jogador %d pagou? (digite 0 se ele saiu da mesa) $", i+1);
              players[i].addBet(sc.nextDouble());
@@ -130,12 +130,25 @@ public class Program {
         
         for (int i = 0; playerNumber > i; i++) {
         	System.out.printf("\nJogador %d: %s", i+1, players[i].getFullHand().getStrongestHand().toString());
-        	if (players[i].equals(biggestScore.get(0))) {
-        		System.out.printf("\tVencedor\t");
-        		System.out.println("+ $%f"  );
+        	if(biggestScore.size() == 1) {
+        		if (players[i].equals(biggestScore.get(0))) {
+        			System.out.printf("\t  Vencedor\t");
+        			System.out.println("+ $%f"  );
+        		}
         	}
-        	
+        	else
+        	{
+        		for (int j = 0; j < biggestScore.size(); j++) {
+        			if (players[i].equals(biggestScore.get(j))) {
+        				System.out.printf("\t  Vencedor\t");
+            			System.out.println("+ $%f"  );
+            			break;
+
+        			}
+        		}
+        	}	
         }
+        
     }
 
     
