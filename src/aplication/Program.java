@@ -25,19 +25,39 @@ public class Program {
     public static void inicialMenu() {
 		
     	System.out.printf("------- Poker Scores ------- \n\n");
-    	System.out.println("Selecione uma Função");
+    	System.out.printf("Selecione uma Função\n\n");
     	System.out.printf("N - Novo Jogo \nS - Sair do Programa\n");
     	
     	try (Scanner entry = new Scanner(System.in)) {
-			  String resposta = entry.next().toUpperCase();
+			  String response = entry.next().toUpperCase();
 			
-			  if("S".equals(resposta)) {
+			  if("S".equals(response)) {
 
 				  System.out.println("Programa Encerrado");
 				  System.exit(0);
 			  }
-			  if("N".equals(resposta)) {
-				  round();	
+			  if("N".equals(response)) {
+				  System.out.printf("------- Poker Scores ------- \n\n");
+				  System.out.printf("Selecione uma opção de jogo: \n\n");
+				  System.out.println("T - Texas Holdem Poker");
+				  System.out.println("F - Five Card Draw Poker");
+				  System.out.println("L - 2-7 Low Ball Poker");
+				  
+				  Scanner sc = new Scanner(System.in);
+				  String gameType = sc.next().toUpperCase();
+				  
+				  switch (gameType) {
+				  
+				  case "T":
+					  roundTexasHoldem();
+					  break;
+				  case "F":
+					  //roundFiveCardDraw();
+					  break;
+				  case "L": 
+					  //roundLowBallPoker();
+					  break;
+				  }
 			  }
 			
 		}
@@ -45,7 +65,7 @@ public class Program {
 
 
 
-    public static void round() {
+    public static void roundTexasHoldem() {
     	
     	System.out.printf("\n------- Poker Scores ------- \n\n");
     	System.out.printf("Digite o número de jogadores: ");
