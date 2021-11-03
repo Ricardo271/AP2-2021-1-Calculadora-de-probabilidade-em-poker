@@ -20,3 +20,42 @@ p1 = As, Jc                     -$ 100,00
 p2= 3c, 6d                      -$ 100,00
 p3= 8c, 9s      winner          +$ 200,00
 
+//Relatório
+
+# round 1 #
+table = 4s, 9d, Ks, 7c, 2c
+p1 = As, Jc                     -$ 100,00
+p2= 3c, 6d                      -$ 100,00
+p3= 8c, 9s      winner          +$ 200,00
+
+# round 1 #
+table = 4s, 9d, Ks, 7c, 2c
+p1 = As, Jc                     -$ 100,00
+p2= 3c, 6d                      -$ 100,00
+p3= 8c, 9s      winner          +$ 200,00
+
+
+# round 1 #
+table = 4s, 9d, Ks, 7c, 2c
+p1 = As, Jc                     -$ 100,00
+p2= 3c, 6d                      -$ 100,00
+p3= 8c, 9s      winner          +$ 200,00
+
+
+# round 1 #
+table = 4s, 9d, Ks, 7c, 2c
+p1 = As, Jc                     -$ 100,00
+p2= 3c, 6d                      -$ 100,00
+p3= 8c, 9s      winner          +$ 200,00
+
+
+p1:
+initialCash: $650
+saldo: $400
+cash: $1050
+saldo = cash - initialCash;
+
+
+p2:       -$400             $250
+p3       +$800             $1050
+
