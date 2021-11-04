@@ -9,14 +9,33 @@ public class Player {
     private Hand fullHand; // Includes the player cards and the table cards
     private List<Card> playerHand = new ArrayList<Card>(); // Only the cards in the player hand
     private double cash;
+    private double initialCash;
     private double bet;
+    private int winCount;
 
     public Player(int number, List<Card> playerHand, List<Card> tableCards) {
         this.number = number;
+        startGame(playerHand, tableCards);
+        this.initialCash = 0;
+        this.cash = initialCash;
+        this.bet = 0;
+        this.winCount = 0;
+    }
+    
+    public Player(int number, List<Card> playerHand, List<Card> tableCards, double initialCash) {
+        this.number = number;
         this.playerHand = playerHand;
         this.fullHand = new Hand(merge(playerHand, tableCards));
-        this.cash = 0;
+        this.initialCash = initialCash;
+        this.cash = initialCash;
         this.bet = 0;
+        this.winCount = 0;
+    }
+
+    public void startGame(List<Card> playerHand, List<Card> tableCards) {
+        resetPlayer();
+        this.playerHand = playerHand;
+        this.fullHand = new Hand(merge(playerHand, tableCards));
     }
 
     public int getNumber() {
@@ -65,10 +84,17 @@ public class Player {
     
     public void wonGame(double bets) {
         this.cash += bets;
+        this.winCount++;
     }
 
     public void lostGame() {
         this.cash -= this.bet;
+    }
+
+    public void resetPlayer() {
+        this.bet = 0;
+        // TODO reset fullHand
+        this.playerHand.clear();
     }
 
     public static <T> List<T> merge(List<T> list1, List<T> list2) {
