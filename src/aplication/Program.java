@@ -94,8 +94,7 @@ public class Program {
 		System.out.printf("\nCartas da mesa: ");
 		System.out.println(tableCards.subList(0, 3).toString());
 
-		// ---------------------------------Next round of
-		// bets---------------------------------
+		// ---------------------------------Next round of bets---------------------------------
 		System.out.printf("\n\n------- Poker Scores ------- \n\n");
 		System.out.printf("Segunda rodada de apostas\n");
 		for (int i = 0; i < playerNumber; i++) {
@@ -106,8 +105,7 @@ public class Program {
 		System.out.printf("\nCartas da mesa: ");
 		System.out.println(tableCards.subList(0, 4).toString());
 
-		// ---------------------------------Next round of
-		// bets---------------------------------
+		// ---------------------------------Next round of bets---------------------------------
 		System.out.printf("\n\n------- Poker Scores ------- \n\n");
 		System.out.printf("Terceira rodada de apostas\n");
 		for (int i = 0; i < playerNumber; i++) {
@@ -118,8 +116,7 @@ public class Program {
 		System.out.printf("\nCartas da mesa: ");
 		System.out.println(tableCards.subList(0, 5).toString());
 
-		// -------------------------------------End of
-		// Round-----------------------------------
+		// -------------------------------------End of Round-----------------------------------
 		int score = 0;
 		List<Player> biggestScore = new ArrayList<Player>();
 		for (Player player : players) {
