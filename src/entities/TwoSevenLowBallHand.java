@@ -4,6 +4,8 @@ import java.util.List;
 
 public class TwoSevenLowBallHand extends FiveCardDrawHand {
 	
+	//classe inutilizada no momento
+	
 	public TwoSevenLowBallHand (List<Card> hand) {
 		super(hand);
 	}
