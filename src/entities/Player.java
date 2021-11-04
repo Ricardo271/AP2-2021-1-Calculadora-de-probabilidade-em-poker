@@ -33,7 +33,7 @@ public class Player {
     }
 
     public void startGame(List<Card> playerHand, List<Card> tableCards) {
-        resetPlayer();
+        //resetPlayer();
         this.playerHand = playerHand;
         this.fullHand = new Hand(merge(playerHand, tableCards));
     }
