@@ -21,7 +21,7 @@ public class Player {
         this.bet = 0;
         this.winCount = 0;
     }
-    
+
     public Player(int number, List<Card> playerHand, List<Card> tableCards, double initialCash) {
         this.number = number;
         this.playerHand = playerHand;
@@ -36,6 +36,28 @@ public class Player {
         resetPlayer();
         this.playerHand = playerHand;
         this.fullHand = new Hand(merge(playerHand, tableCards));
+    }
+
+    public void resetPlayer() {
+        this.bet = 0;
+        this.fullHand.resetHand();
+        this.playerHand.clear();
+    }
+
+    public double getInitialCash() {
+        return this.initialCash;
+    }
+
+    public void setInitialCash(double initialCash) {
+        this.initialCash = initialCash;
+    }
+
+    public int getWinCount() {
+        return this.winCount;
+    }
+
+    public void setWinCount(int winCount) {
+        this.winCount = winCount;
     }
 
     public int getNumber() {
@@ -81,7 +103,7 @@ public class Player {
     public void addBet(double bet) {
         this.bet += bet;
     }
-    
+
     public void wonGame(double bets) {
         this.cash += bets;
         this.winCount++;
@@ -89,12 +111,6 @@ public class Player {
 
     public void lostGame() {
         this.cash -= this.bet;
-    }
-
-    public void resetPlayer() {
-        this.bet = 0;
-        // TODO reset fullHand
-        this.playerHand.clear();
     }
 
     public static <T> List<T> merge(List<T> list1, List<T> list2) {
