@@ -22,6 +22,12 @@ public class Deck {
     public List<Card> getDeck() {
         return deck;
     }
+    
+    public void resetDeck() {
+    	for (String card : standardDeck) {
+            deck.add(new Card(card));
+        }
+    }
 
     public void shuffle() {
         Collections.shuffle(deck);

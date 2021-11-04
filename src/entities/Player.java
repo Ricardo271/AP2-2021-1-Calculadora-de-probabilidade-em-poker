@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Player {
 
+	private String name;
     private int number;
     private Hand fullHand; // Includes the player cards and the table cards
     private List<Card> playerHand = new ArrayList<Card>(); // Only the cards in the player hand
@@ -12,6 +13,14 @@ public class Player {
     private double initialCash;
     private double bet;
     private int winCount;
+    
+    public Player(int number) {
+    	this.number = number;
+    	this.bet = 0;
+    	this.initialCash = 0;
+    	this.cash = 0;
+    	this.winCount = 0;
+    }
 
     public Player(int number, List<Card> playerHand, List<Card> tableCards) {
         this.number = number;
@@ -56,8 +65,8 @@ public class Player {
         return this.winCount;
     }
 
-    public void setWinCount(int winCount) {
-        this.winCount = winCount;
+    public void addWinCount() {
+        this.winCount++;
     }
 
     public int getNumber() {
@@ -104,13 +113,23 @@ public class Player {
         this.bet += bet;
     }
 
-    public void wonGame(double bets) {
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void wonGame(double bets) {
         this.cash += bets;
         this.winCount++;
+        this.bet = 0;
     }
 
     public void lostGame() {
         this.cash -= this.bet;
+        this.bet = 0;
     }
 
     public static <T> List<T> merge(List<T> list1, List<T> list2) {

@@ -17,10 +17,7 @@ public class FiveCardDrawHand extends Hand{
 	public boolean swap(List<Card> cardsToRemove, List<Card> cardsToAdd) {
 		if (cardsToRemove.size() == cardsToAdd.size()) {
 			for (int i = 0; i < cardsToRemove.size(); i++) {
-				if (!hand.remove(cardsToRemove.get(i))) {
-					System.out.println("ERRO: A carta " + cardsToRemove.get(i) + "não está presente na mão, então não pode ser trocada.");
-					cardsToAdd.remove(i);
-				}
+				hand.remove(cardsToRemove.get(i));
 			}
 			for (int j = 0; j < cardsToAdd.size(); j++) {
 				hand.add(cardsToAdd.get(j));

@@ -11,6 +11,7 @@ public class Hand  {
 
 	protected List<Card> hand = new ArrayList<Card>();
 	protected Integer powerOfHand;
+	protected String handRanking;
 
 	protected List<Card> strongestHand = new ArrayList<Card>();
 
@@ -73,6 +74,10 @@ public class Hand  {
 	public void setHand(List<Card> hand) {
 		this.hand = hand;
 	}
+	
+	public int getSizeOfHand() {
+		return this.hand.size();
+	}
 
 	public void addCard(Card card) {
 		this.hand.add(card);
@@ -85,6 +90,13 @@ public class Hand  {
 	public void removeCard(Card card) {
 		this.hand.remove(card);
 		if (hand.size() >= 5 ) {
+			calculatePower();
+		}
+	}
+	
+	public void removeCard(int index) {
+		this.hand.remove(index);
+		if (hand.size() >= 5) {
 			calculatePower();
 		}
 	}
@@ -151,6 +163,10 @@ public class Hand  {
 		return powerOfHand;
 	}
 
+	public String getHandRanking() {
+		return handRanking;
+	}
+
 	public void calculatePower() {
 		setPair(hasPair());
 		setDoublePair(hasDoublePair());
@@ -194,6 +210,21 @@ public class Hand  {
 				strongestHand.add(hand.get(i));
 			}
 		}
+		
+		switch(powerOfHand) {
+		case 1000000000: handRanking = "royal flush"; break;
+		case 100000000: handRanking = "straight flush"; break;
+		case 10000000: handRanking = "quads"; break;
+		case 1000000: handRanking = "full house"; break;
+		case 100000: handRanking = "flush"; break;
+		case 10000: handRanking = "straight"; break;
+		case 1000: handRanking = "three of a kind"; break;
+		case 100: handRanking = "double pair"; break;
+		case 10: handRanking = "pair"; break;
+		case 1: handRanking = "highest card"; break;
+		default: break;
+		}
+		
 	}
 
 	public Integer tieBreak(Hand h) {
