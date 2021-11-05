@@ -228,11 +228,13 @@ public class Hand  {
 	}
 
 	public Integer tieBreak(Hand h) {
-		for (int i = 0; i < 5; i++) {
-			if (h.getStrongestHand().get(i).getNumber() > strongestHand.get(i).getNumber()) {
-				return 2;
-			} else if (h.getStrongestHand().get(i).getNumber() < strongestHand.get(i).getNumber()) {
-				return 1;
+		if (h.getStrongestHand().size() != 0 && this.strongestHand.size() != 0) {
+			for (int i = 0; i < 5; i++) {
+				if (h.getStrongestHand().get(i).getNumber() > strongestHand.get(i).getNumber()) {
+					return 2;
+				} else if (h.getStrongestHand().get(i).getNumber() < strongestHand.get(i).getNumber()) {
+					return 1;
+				}
 			}
 		}
 		return 0;

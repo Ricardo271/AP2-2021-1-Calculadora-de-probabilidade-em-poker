@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import entities.Card;
@@ -17,11 +18,13 @@ import entities.Table;
 public class Program {
 
 	static Deck deck = new Deck();
+	static String saveFile = getNextFile();
 
 	public static void main(String[] args) {
 
 		deck.shuffle();
 		inicialMenu();
+
 
 	}
 
@@ -332,7 +335,7 @@ public class Program {
 			}
 			sb.append("\n");
 			System.out.println(sb.toString());
-			saveResults(sb.toString());
+			saveResults(sb.toString(), saveFile);
 			System.out.println("\n\nDeseja come�ar outro round?");
 			System.out.printf("N - Novo Round \nS - Sair do Programa\n");
 			String response = sc.next().toUpperCase();
@@ -353,7 +356,7 @@ public class Program {
 					sb.append(String.format("Lucro: %.2f\n", player.getCash() - player.getInitialCash()));
 					sb.append(String.format("Número de Vitórias: %d\n\n", player.getWinCount()));
 				}
-				saveResults(sb.toString());
+				saveResults(sb.toString(), saveFile);
 				System.out.println(sb.toString());
 
 				System.exit(0);
@@ -542,7 +545,6 @@ public class Program {
 						sb.append(String.format("->Jogador %d venceu.\n", i + 1));
 						sb.append(String.format("Ganhos na rodada: + $%.2f\n", totalBets - players[i].getBet()));
 						players[i].wonGame(totalBets - players[i].getBet());
-						players[i].addWinCount();
 						sb.append(String.format("Saldo: $ %.2f", players[i].getCash()));
 
 					} else {
@@ -556,7 +558,6 @@ public class Program {
 					for (int j = 0; j < biggestScore.size(); j++) {
 						if (players[i].equals(biggestScore.get(j))) {
 							sb.append(String.format("->Jogador %d empatou.\n", i + 1));
-							players[i].addWinCount();
 							double amount = totalBets / initialSize;
 							if (amount > 2 * players[i].getBet()) {
 								totalBets = amount - (2 * players[i].getBet());
@@ -574,7 +575,7 @@ public class Program {
 			}
 			sb.append("\n");
 			System.out.println(sb.toString());
-			saveResults(sb.toString());
+			saveResults(sb.toString(), saveFile);
 			System.out.println("\n\nDeseja come�ar outro round?");
 			System.out.printf("N - Novo Round \nS - Sair do Programa\n");
 			String response = sc.next().toUpperCase();
@@ -585,7 +586,7 @@ public class Program {
 				// Final do relatorio
 				sb.setLength(0);
 				sb.append("\n================= RELATÓRIO ================\n");
-				sb.append("Modalidade: Fiva Card Draw\n\n");
+				sb.append("Modalidade: Five Card Draw\n\n");
 				for (Player player : players) {
 					sb.append(String.format("Jogador: %s\n", player.getNumber() + 1));
 					sb.append(String.format("Porcentagem de vitória: %.2f\n",
@@ -595,7 +596,7 @@ public class Program {
 					sb.append(String.format("Lucro: %.2f\n", player.getCash() - player.getInitialCash()));
 					sb.append(String.format("Número de Vitórias: %d\n\n", player.getWinCount()));
 				}
-				saveResults(sb.toString());
+				saveResults(sb.toString(), saveFile);
 				System.out.println(sb.toString());
 
 				System.exit(0);
@@ -618,9 +619,9 @@ public class Program {
 		return list;
 	}
 
-	public static void saveResults(String s) {
+	public static void saveResults(String s, String saveFile) {
 
-		File file = new File("Games", "game1.txt");
+		File file = new File("Games", saveFile);
 		try {
 			if (file.getParentFile().exists()) {
 				if (!file.exists()) {
@@ -648,4 +649,41 @@ public class Program {
 
 	}
 
+	public static String getNextFile() {
+		
+		File folder = new File("Games");
+		File files[] = folder.listFiles();
+		for (File file : files) {
+			System.out.println(file.getName());
+		}
+
+		List<Integer> numbers = new ArrayList<Integer>();
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].getName().startsWith("game")) {
+				numbers.add(Integer.parseInt(files[i].getName().substring(4, files[i].getName().length() - 4)));
+			}
+		}
+
+		Integer[] arr = new Integer[numbers.size()];
+		int n = findMissingNumber(numbers.toArray(arr));
+
+		return "game" + n + ".txt";
+	}
+
+	public static int findMissingNumber(Integer arr[]) {
+
+		Arrays.sort(arr);
+
+		int n = 1;
+
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i] != n) {
+				return n;
+			}
+			n = arr[i] + 1;
+		}
+
+		return n;
+
+	}
 }
