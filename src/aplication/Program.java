@@ -17,6 +17,7 @@ import entities.Player;
 public class Program {
 
 	static Deck deck = new Deck();
+	static String saveFolder = "Games";
 	static String saveFile = getNextFile();
 
 	public static void main(String[] args) {
@@ -147,7 +148,7 @@ public class Program {
 				System.out.printf("\nMao do Jogador %d: %s\n", i + 1, playerHand.toString());
 				while (true) {
 					System.out.printf("Aposta do Jogador %d (digite N se ele saiu da mesa): $", i + 1);
-					String response = sc.nextLine();
+					String response = sc.nextLine().toUpperCase();
 					if (response.charAt(0) == 'N') {
 						if (playerCount != 1) {
 							foldedPlayers[i] = true;
@@ -340,7 +341,6 @@ public class Program {
 			System.out.println("\n\nDeseja come�ar outro round?");
 			System.out.printf("N - Novo Round \nS - Sair do Programa\n");
 			String response = sc.next().toUpperCase();
-			sc.nextLine();
 			if ("S".equals(response)) {
 				System.out.println("Programa Encerrado");
 
@@ -370,7 +370,6 @@ public class Program {
 			}
 			roundCount++;
 
-			sc.close();
 		}
 	}
 
@@ -628,7 +627,7 @@ public class Program {
 
 	public static void saveResults(String s, String saveFile) {
 
-		File file = new File("Games", saveFile);
+		File file = new File(saveFolder, saveFile);
 		try {
 			if (file.getParentFile().exists()) {
 				if (!file.exists()) {
@@ -658,7 +657,12 @@ public class Program {
 
 	public static String getNextFile() {
 		
-		File folder = new File("Games");
+		File folder = new File(saveFolder);
+
+		if (!folder.exists()) {
+			return "game1.txt";
+		}
+
 		File files[] = folder.listFiles();
 		for (File file : files) {
 			System.out.println(file.getName());
