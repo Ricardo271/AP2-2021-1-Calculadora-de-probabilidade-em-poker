@@ -13,7 +13,6 @@ import entities.Deck;
 import entities.FiveCardDrawHand;
 import entities.Hand;
 import entities.Player;
-import entities.Table;
 
 public class Program {
 
@@ -111,6 +110,8 @@ public class Program {
 					roundFiveCardDraw(playerNumber, players);
 					break;
 				}
+
+				sc.close();
 			}
 
 		}
@@ -359,6 +360,7 @@ public class Program {
 				saveResults(sb.toString(), saveFile);
 				System.out.println(sb.toString());
 
+				sc.close();
 				System.exit(0);
 			}
 			deck.resetDeck();
@@ -367,6 +369,8 @@ public class Program {
 				players[i].resetPlayer();
 			}
 			roundCount++;
+
+			sc.close();
 		}
 	}
 
@@ -599,6 +603,7 @@ public class Program {
 				saveResults(sb.toString(), saveFile);
 				System.out.println(sb.toString());
 
+				sc.close();
 				System.exit(0);
 			}
 			deck.resetDeck();
@@ -607,6 +612,8 @@ public class Program {
 				players[i].resetPlayer();
 			}
 			roundCount++;
+
+			sc.close();
 		}
 	}
 
