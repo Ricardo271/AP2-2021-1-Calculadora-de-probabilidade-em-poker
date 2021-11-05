@@ -342,7 +342,7 @@ public class Program {
 
 				// Final do relatorio
 				sb.setLength(0);
-				sb.append("================= RELATÓRIO ================\n");
+				sb.append("\n================= RELATÓRIO ================\n");
 				sb.append("Modalidade: Texas Hold'em\n\n");
 				for (Player player : players) {
 					sb.append(String.format("Jogador: %s\n", player.getNumber() + 1));
@@ -584,7 +584,7 @@ public class Program {
 
 				// Final do relatorio
 				sb.setLength(0);
-				sb.append("================= RELATÓRIO ================\n");
+				sb.append("\n================= RELATÓRIO ================\n");
 				sb.append("Modalidade: Fiva Card Draw\n\n");
 				for (Player player : players) {
 					sb.append(String.format("Jogador: %s\n", player.getNumber() + 1));
