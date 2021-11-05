@@ -109,9 +109,6 @@ public class Program {
 				case "F":
 					roundFiveCardDraw(playerNumber, players);
 					break;
-				case "L":
-					// roundLowBallPoker();
-					break;
 				}
 			}
 
@@ -122,21 +119,22 @@ public class Program {
 		int roundCount = 1;
 		while(true) {
 			System.out.printf("\n============== Poker Scores ============== \n\n");
-			//System.out.printf("Digite o numero de jogadores: ");
+
 			Scanner sc = new Scanner(System.in);
-
-			//int playerNumber = sc.nextInt();
-			//Player[] players = new Player[playerNumber];
-
+			
+			//adicionando cartas aleatorias para a mesa
 			List<Card> tableCards = new ArrayList<Card>();
 			for (int i = 0; i < 5; i++)
 				tableCards.add(deck.removeCard());
-
+			
+			//declaracao de variaveis
 			int playerCount = playerNumber;
 			boolean foldedPlayers[] = new boolean[playerNumber]; 
 			Boolean isRoundFinished = false;
 			double totalBets = 0;
+			
 			for (int i = 0; i < playerNumber; i++) {
+				//adicionando cartas aleatorias para a mao do player
 				List<Card> playerHand = new ArrayList<Card>();
 				for (int j = 0; j < 2; j++)
 					playerHand.add(deck.removeCard());
@@ -175,11 +173,13 @@ public class Program {
 			System.out.printf("\n----> Cartas da mesa: ");
 			System.out.println(tableCards.subList(0, 3).toString());
 
+			//checando se so ha um player sobrando
 			if (playerCount == 1) {
 				isRoundFinished = true;
 			}
 
 			// ---------------------------------Next round of bets---------------------------------
+			//se o round estiver terminado, nao ha rodada de apostas
 			if (!isRoundFinished) {
 				System.out.printf("\n\n============== Poker Scores ============== \n\n");
 				System.out.printf("Segunda rodada de apostas\n");
@@ -289,6 +289,7 @@ public class Program {
 
 			for (int i = 0; i < playerNumber; i++) {
 				sb.append(String.format("\n\n---> Jogador %d: \n\n", i + 1));
+				sb.append(String.format("Nome do jogador: %s\n", players[i].getName()));
 				sb.append(String.format("Mao mais forte: %s\n", players[i].getFullHand().getStrongestHand().toString()));
 				sb.append(String.format("Mao inicial: %s\n", players[i].getPlayerHand().toString()));
 				sb.append(String.format("Jogador saiu da mesa: %s", foldedPlayers[i] ? "sim\n" : "nao\n"));
@@ -298,7 +299,6 @@ public class Program {
 						sb.append(String.format("->Jogador %d venceu.\n", i + 1));
 						sb.append(String.format("Ganhos na rodada: + $%.2f\n", totalBets - players[i].getBet()));
 						players[i].wonGame(totalBets - players[i].getBet());
-						players[i].addWinCount();
 						sb.append(String.format("Saldo: $ %.2f", players[i].getCash()));
 
 
@@ -310,16 +310,16 @@ public class Program {
 						sb.append(String.format("Saldo: $ %.2f", players[i].getCash()));
 					}
 				} else {
-					int initialSize = biggestScore.size();
+					int winnersCount = biggestScore.size();
 					for (int j = 0; j < biggestScore.size(); j++) {
 						if (players[i].equals(biggestScore.get(j))) {
 							sb.append(String.format("->Jogador %d empatou.\n", i + 1));
 							players[i].addWinCount();
-							double amount = totalBets / initialSize;
+							double amount = totalBets / winnersCount;
 							if (amount > 2 * players[i].getBet()) {
 								totalBets = amount - (2 * players[i].getBet());
 								amount = 2 * players[i].getBet();
-								initialSize--;
+								winnersCount--;
 							}
 							sb.append(String.format("Ganhos na rodada: + $%.2f\n", amount - players[i].getBet()));
 							players[i].wonGame(amount - players[i].getBet());
@@ -339,6 +339,11 @@ public class Program {
 			sc.nextLine();
 			if ("S".equals(response)) {
 				System.out.println("Programa Encerrado");
+				
+				
+				//TODO: Final do relatorio
+				
+				
 				System.exit(0);
 			}
 			deck.resetDeck();
@@ -420,7 +425,7 @@ public class Program {
 							if (cardsToBeTraded != 5) {
 								for (int n = 0; n < cardsToBeTraded; n++) {
 									int number;
-									System.out.printf("\nDigite a posicao %dª da carta a ser trocada (1 a 5): ", n);
+									System.out.printf("\nDigite a posicao %dª da carta a ser trocada (1 a 5): ", n+1);
 									number = sc.nextInt();
 									sc.nextLine();
 									handToRemove.add(players[i].getFullHand().getHand().get(number-1));
@@ -433,7 +438,8 @@ public class Program {
 							for (int n = 0; n < cardsToBeTraded; n++) {
 								handToAdd.add(deck.removeCard());
 							}
-
+							
+							//dynamic casting para chamar o metodo swap
 							((FiveCardDrawHand) players[i].getFullHand()).swap(handToRemove, handToAdd);
 							break;
 						}
@@ -515,6 +521,7 @@ public class Program {
 
 				for (int i = 0; i < playerNumber; i++) {
 					sb.append(String.format("\n\n---> Jogador %d: \n\n", i + 1));
+					sb.append(String.format("Nome do jogador: %s\n", players[i].getName()));
 					sb.append(String.format("Mao do Jogador: %s\n", players[i].getPlayerHand().toString()));
 					sb.append(String.format("Jogador saiu da mesa: %s", foldedPlayers[i] ? "sim\n" : "nao\n"));
 					sb.append(String.format("Ranking da mao: %s\n", players[i].getFullHand().getHandRanking()));
@@ -564,6 +571,11 @@ public class Program {
 				sc.nextLine();
 				if ("S".equals(response)) {
 					System.out.println("Programa Encerrado");
+					
+
+					//TODO: Final do relatorio
+					
+					
 					System.exit(0);
 				}
 				deck.resetDeck();
