@@ -24,6 +24,7 @@ public class Deck {
     }
     
     public void resetDeck() {
+        deck.clear();
     	for (String card : standardDeck) {
             deck.add(new Card(card));
         }

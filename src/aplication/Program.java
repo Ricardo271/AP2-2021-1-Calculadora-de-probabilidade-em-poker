@@ -51,9 +51,9 @@ public class Program {
 				String gameType = sc.next().toUpperCase();
 
 				System.out.printf("\n============== Poker Scores ============== \n\n");
-				
+
 				int playerNumber;
-				while(true) {
+				while (true) {
 					System.out.printf("Digite o numero de jogadores: ");
 					playerNumber = sc.nextInt();
 					sc.nextLine();
@@ -65,17 +65,17 @@ public class Program {
 						break;
 					}
 				}
-				
+
 				Player[] players = new Player[playerNumber];
 				for (int i = 0; i < playerNumber; i++) {
 					double initialCash;
 					String name;
-					System.out.printf("\n============== Player %d ============== \n\n", i+1); 
+					System.out.printf("\n============== Player %d ============== \n\n", i + 1);
 					players[i] = new Player(i);
-					
-					while(true) {
+
+					while (true) {
 						System.out.printf("\nValor inicial: ");
-						
+
 						initialCash = sc.nextDouble();
 						sc.nextLine();
 						if (initialCash <= 0) {
@@ -84,10 +84,9 @@ public class Program {
 							break;
 						}
 
-
 					}
-					while(true) {
-						System.out.printf("\nNome do jogador %d: ", i+1);
+					while (true) {
+						System.out.printf("\nNome do jogador %d: ", i + 1);
 						name = sc.nextLine();
 						if (name.length() > 100) {
 							System.out.println("\nERRO: Nome muito longo. Tente novamente.");
@@ -100,7 +99,6 @@ public class Program {
 					players[i].setName(name);
 				}
 
-				
 				switch (gameType) {
 
 				case "T":
@@ -117,24 +115,24 @@ public class Program {
 
 	public static void roundTexasHoldem(int playerNumber, Player[] players) {
 		int roundCount = 1;
-		while(true) {
+		while (true) {
 			System.out.printf("\n============== Poker Scores ============== \n\n");
 
 			Scanner sc = new Scanner(System.in);
-			
-			//adicionando cartas aleatorias para a mesa
+
+			// adicionando cartas aleatorias para a mesa
 			List<Card> tableCards = new ArrayList<Card>();
 			for (int i = 0; i < 5; i++)
 				tableCards.add(deck.removeCard());
-			
-			//declaracao de variaveis
+
+			// declaracao de variaveis
 			int playerCount = playerNumber;
-			boolean foldedPlayers[] = new boolean[playerNumber]; 
+			boolean foldedPlayers[] = new boolean[playerNumber];
 			Boolean isRoundFinished = false;
 			double totalBets = 0;
-			
+
 			for (int i = 0; i < playerNumber; i++) {
-				//adicionando cartas aleatorias para a mao do player
+				// adicionando cartas aleatorias para a mao do player
 				List<Card> playerHand = new ArrayList<Card>();
 				for (int j = 0; j < 2; j++)
 					playerHand.add(deck.removeCard());
@@ -143,8 +141,8 @@ public class Program {
 				players[i].setFullHand(new Hand(merge(playerHand, tableCards)));
 
 				System.out.printf("\nMao do Jogador %d: %s\n", i + 1, playerHand.toString());
-				while(true) {
-					System.out.printf("Aposta do Jogador %d (digite N se ele saiu da mesa): $", i+1);
+				while (true) {
+					System.out.printf("Aposta do Jogador %d (digite N se ele saiu da mesa): $", i + 1);
 					String response = sc.nextLine();
 					if (response.charAt(0) == 'N') {
 						if (playerCount != 1) {
@@ -173,20 +171,21 @@ public class Program {
 			System.out.printf("\n----> Cartas da mesa: ");
 			System.out.println(tableCards.subList(0, 3).toString());
 
-			//checando se so ha um player sobrando
+			// checando se so ha um player sobrando
 			if (playerCount == 1) {
 				isRoundFinished = true;
 			}
 
-			// ---------------------------------Next round of bets---------------------------------
-			//se o round estiver terminado, nao ha rodada de apostas
+			// ---------------------------------Next round of
+			// bets---------------------------------
+			// se o round estiver terminado, nao ha rodada de apostas
 			if (!isRoundFinished) {
 				System.out.printf("\n\n============== Poker Scores ============== \n\n");
 				System.out.printf("Segunda rodada de apostas\n");
 				for (int i = 0; i < playerNumber; i++) {
 					if (!foldedPlayers[i]) {
-						while(true) {
-							System.out.printf("Aposta do Jogador %d (digite N se ele saiu da mesa): $", i+1);
+						while (true) {
+							System.out.printf("Aposta do Jogador %d (digite N se ele saiu da mesa): $", i + 1);
 							String response = sc.nextLine();
 							if (response.charAt(0) == 'N') {
 								foldedPlayers[i] = true;
@@ -213,14 +212,15 @@ public class Program {
 			if (playerCount == 1) {
 				isRoundFinished = true;
 			}
-			// ---------------------------------Next round of bets---------------------------------
+			// ---------------------------------Next round of
+			// bets---------------------------------
 			if (!isRoundFinished) {
 				System.out.printf("\n\n============== Poker Scores ============== \n\n");
 				System.out.printf("Terceira rodada de apostas\n");
 				for (int i = 0; i < playerNumber; i++) {
 					if (!foldedPlayers[i]) {
-						while(true) {
-							System.out.printf("Aposta do Jogador %d (digite N se ele saiu da mesa): $", i+1);
+						while (true) {
+							System.out.printf("Aposta do Jogador %d (digite N se ele saiu da mesa): $", i + 1);
 							String response = sc.nextLine();
 							if (response.charAt(0) == 'N') {
 								foldedPlayers[i] = true;
@@ -248,12 +248,13 @@ public class Program {
 				isRoundFinished = true;
 			}
 
-			// -------------------------------------End of Round-----------------------------------
+			// -------------------------------------End of
+			// Round-----------------------------------
 			int score = 0;
 			List<Player> biggestScore = new ArrayList<Player>();
 			if (playerCount == 1) {
 				for (int i = 0; i < playerNumber; i++) {
-					if(!foldedPlayers[i]) {
+					if (!foldedPlayers[i]) {
 						biggestScore.add(players[i]);
 					}
 				}
@@ -290,7 +291,8 @@ public class Program {
 			for (int i = 0; i < playerNumber; i++) {
 				sb.append(String.format("\n\n---> Jogador %d: \n\n", i + 1));
 				sb.append(String.format("Nome do jogador: %s\n", players[i].getName()));
-				sb.append(String.format("Mao mais forte: %s\n", players[i].getFullHand().getStrongestHand().toString()));
+				sb.append(
+						String.format("Mao mais forte: %s\n", players[i].getFullHand().getStrongestHand().toString()));
 				sb.append(String.format("Mao inicial: %s\n", players[i].getPlayerHand().toString()));
 				sb.append(String.format("Jogador saiu da mesa: %s", foldedPlayers[i] ? "sim\n" : "nao\n"));
 				sb.append(String.format("Ranking da mao: %s\n", players[i].getFullHand().getHandRanking()));
@@ -300,8 +302,6 @@ public class Program {
 						sb.append(String.format("Ganhos na rodada: + $%.2f\n", totalBets - players[i].getBet()));
 						players[i].wonGame(totalBets - players[i].getBet());
 						sb.append(String.format("Saldo: $ %.2f", players[i].getCash()));
-
-
 
 					} else {
 						sb.append(String.format("->Jogador %d perdeu.\n", i + 1));
@@ -333,43 +333,56 @@ public class Program {
 			sb.append("\n");
 			System.out.println(sb.toString());
 			saveResults(sb.toString());
-			System.out.println("\n\nDeseja come�ar outro round?");
+			System.out.println("\n\nDeseja come�ar outro round?");
 			System.out.printf("N - Novo Round \nS - Sair do Programa\n");
 			String response = sc.next().toUpperCase();
 			sc.nextLine();
 			if ("S".equals(response)) {
 				System.out.println("Programa Encerrado");
-				
-				
-				//TODO: Final do relatorio
-				
-				
+
+				// Final do relatorio
+				sb.setLength(0);
+				sb.append("================= RELATÓRIO ================\n");
+				sb.append("Modalidade: Texas Hold'em\n\n");
+				for (Player player : players) {
+					sb.append(String.format("Jogador: %s\n", player.getNumber() + 1));
+					sb.append(String.format("Porcentagem de vitória: %.2f\n",
+							((double) player.getWinCount()) / roundCount * 100));
+					sb.append(String.format("Dinheiro Inicial: %.2f\n", player.getInitialCash()));
+					sb.append(String.format("Dinheiro Atual: %.2f\n", player.getCash()));
+					sb.append(String.format("Lucro: %.2f\n", player.getCash() - player.getInitialCash()));
+					sb.append(String.format("Número de Vitórias: %d\n\n", player.getWinCount()));
+				}
+				saveResults(sb.toString());
+				System.out.println(sb.toString());
+
 				System.exit(0);
 			}
 			deck.resetDeck();
-			for(int i = 0; i < playerNumber; i++) {
+			deck.shuffle();
+			for (int i = 0; i < playerNumber; i++) {
 				players[i].resetPlayer();
 			}
 			roundCount++;
 		}
 	}
-	
+
 	public static void roundFiveCardDraw(int playerNumber, Player[] players) {
 		int roundCount = 1;
-		while(true) {
+		while (true) {
 			System.out.printf("\n============== Poker Scores ============== \n\n");
-			//System.out.printf("Digite o numero de jogadores: ");
+			// System.out.printf("Digite o numero de jogadores: ");
 			Scanner sc = new Scanner(System.in);
 
 			int playerCount = playerNumber;
-			boolean foldedPlayers[] = new boolean[playerNumber]; 
+			boolean foldedPlayers[] = new boolean[playerNumber];
 			Boolean isRoundFinished = false;
 			double totalBets = 0;
 			double cardsToBeTraded = 0;
-			List <Card> playerHand;
+			List<Card> playerHand;
 			for (int i = 0; i < playerNumber; i++) {
 				playerHand = new ArrayList<Card>();
-			
+
 				for (int j = 0; j < 5; j++) {
 					playerHand.add(deck.removeCard());
 				}
@@ -377,11 +390,11 @@ public class Program {
 				players[i].setPlayerHand(playerHand);
 				FiveCardDrawHand fullHand = new FiveCardDrawHand(playerHand);
 				players[i].setFullHand(fullHand);
-				//((FiveCardDrawHand) players[i].getFullHand()).swap();
+				// ((FiveCardDrawHand) players[i].getFullHand()).swap();
 
 				System.out.printf("\nMao do Jogador %d: %s\n", i + 1, players[i].getFullHand().toString());
-				while(true) {
-					System.out.printf("Aposta do Jogador %d (digite N se ele saiu da mesa): $", i+1);
+				while (true) {
+					System.out.printf("Aposta do Jogador %d (digite N se ele saiu da mesa): $", i + 1);
 					String response = sc.nextLine();
 					if (response.charAt(0) == 'N') {
 						if (playerCount != 1) {
@@ -405,7 +418,7 @@ public class Program {
 					}
 				}
 				if (!foldedPlayers[i]) {
-					while(true) {
+					while (true) {
 						System.out.printf("\nCartas para trocar (digite 0 para manter): ");
 						String response = sc.nextLine();
 						try {
@@ -425,10 +438,10 @@ public class Program {
 							if (cardsToBeTraded != 5) {
 								for (int n = 0; n < cardsToBeTraded; n++) {
 									int number;
-									System.out.printf("\nDigite a posicao %d� da carta a ser trocada (1 a 5): ", n+1);
+									System.out.printf("\nDigite a posicao %d� da carta a ser trocada (1 a 5): ", n + 1);
 									number = sc.nextInt();
 									sc.nextLine();
-									handToRemove.add(players[i].getFullHand().getHand().get(number-1));
+									handToRemove.add(players[i].getFullHand().getHand().get(number - 1));
 								}
 							} else {
 								for (int n = 0; n < 5; n++) {
@@ -438,8 +451,8 @@ public class Program {
 							for (int n = 0; n < cardsToBeTraded; n++) {
 								handToAdd.add(deck.removeCard());
 							}
-							
-							//dynamic casting para chamar o metodo swap
+
+							// dynamic casting para chamar o metodo swap
 							((FiveCardDrawHand) players[i].getFullHand()).swap(handToRemove, handToAdd);
 							break;
 						}
@@ -447,144 +460,154 @@ public class Program {
 					System.out.printf("\nMao Final do Jogador %d: %s\n", i + 1, players[i].getFullHand().toString());
 				}
 			}
-				if (playerCount == 1) {
-					isRoundFinished = true;
-				}
+			if (playerCount == 1) {
+				isRoundFinished = true;
+			}
 
-
-				// ------------ Proxima rodada de apostas -------------
-				if (!isRoundFinished) {
-					System.out.printf("\n\n============== Poker Scores ============== \n\n");
-					System.out.printf("Segunda rodada de apostas\n");
-					for (int i = 0; i < playerNumber; i++) {
-						System.out.printf("\nMao do Jogador %d: %s\n", i + 1, players[i].getFullHand().toString());
-						if (!foldedPlayers[i]) {
-							while(true) {
-								System.out.printf("Aposta do Jogador %d (digite N se ele saiu da mesa): $", i+1);
-								String response = sc.nextLine();
-								if (response.charAt(0) == 'N') {
-									foldedPlayers[i] = true;
-									playerCount--;
+			// ------------ Proxima rodada de apostas -------------
+			if (!isRoundFinished) {
+				System.out.printf("\n\n============== Poker Scores ============== \n\n");
+				System.out.printf("Segunda rodada de apostas\n");
+				for (int i = 0; i < playerNumber; i++) {
+					System.out.printf("\nMao do Jogador %d: %s\n", i + 1, players[i].getFullHand().toString());
+					if (!foldedPlayers[i]) {
+						while (true) {
+							System.out.printf("Aposta do Jogador %d (digite N se ele saiu da mesa): $", i + 1);
+							String response = sc.nextLine();
+							if (response.charAt(0) == 'N') {
+								foldedPlayers[i] = true;
+								playerCount--;
+								break;
+							} else {
+								try {
+									double money = Double.parseDouble(response);
+									players[i].addBet(money);
+									totalBets += money;
 									break;
-								} else {
-									try {
-										double money = Double.parseDouble(response);
-										players[i].addBet(money);
-										totalBets += money;
-										break;
-									} catch (Exception e) {
-										System.out.println("ERRO: " + e);
-										System.out.println("Tente novamente.");
-									}
+								} catch (Exception e) {
+									System.out.println("ERRO: " + e);
+									System.out.println("Tente novamente.");
 								}
 							}
 						}
 					}
 				}
-				// ------------------------------ Fim das apostas -----------------------------
-				int score = 0;
-				List<Player> biggestScore = new ArrayList<Player>();
-				if (playerCount == 1) {
-					for (int i = 0; i < playerNumber; i++) {
-						if(!foldedPlayers[i]) {
-							biggestScore.add(players[i]);
+			}
+			// ------------------------------ Fim das apostas -----------------------------
+			int score = 0;
+			List<Player> biggestScore = new ArrayList<Player>();
+			if (playerCount == 1) {
+				for (int i = 0; i < playerNumber; i++) {
+					if (!foldedPlayers[i]) {
+						biggestScore.add(players[i]);
+					}
+				}
+			} else {
+				for (Player player : players) {
+					if (player.getFullHand().getPowerOfHand() > score) {
+						biggestScore.clear();
+						biggestScore.add(player);
+						score = player.getFullHand().getPowerOfHand();
+					} else if (player.getFullHand().getPowerOfHand() == score) {
+						if (biggestScore.size() == 0) {
+							biggestScore.add(player);
+						} else {
+							int response = player.getFullHand().tieBreak(biggestScore.get(0).getFullHand());
+							switch (response) {
+							case 0:
+								biggestScore.add(player);
+								break;
+							case 1:
+								biggestScore.clear();
+								biggestScore.add(player);
+								break;
+							}
 						}
+					}
+				}
+			}
+
+			StringBuilder sb = new StringBuilder();
+			System.out.println("============== Poker Scores ==============");
+			sb.append(String.format("\n================= ROUND %d ================\n\n", roundCount));
+
+			for (int i = 0; i < playerNumber; i++) {
+				sb.append(String.format("\n\n---> Jogador %d: \n\n", i + 1));
+				sb.append(String.format("Nome do jogador: %s\n", players[i].getName()));
+				sb.append(String.format("Mao do Jogador: %s\n", players[i].getPlayerHand().toString()));
+				sb.append(String.format("Jogador saiu da mesa: %s", foldedPlayers[i] ? "sim\n" : "nao\n"));
+				sb.append(String.format("Ranking da mao: %s\n", players[i].getFullHand().getHandRanking()));
+				if (biggestScore.size() == 1) {
+					if (players[i].equals(biggestScore.get(0))) {
+						sb.append(String.format("->Jogador %d venceu.\n", i + 1));
+						sb.append(String.format("Ganhos na rodada: + $%.2f\n", totalBets - players[i].getBet()));
+						players[i].wonGame(totalBets - players[i].getBet());
+						players[i].addWinCount();
+						sb.append(String.format("Saldo: $ %.2f", players[i].getCash()));
+
+					} else {
+						sb.append(String.format("->Jogador %d perdeu.\n", i + 1));
+						sb.append(String.format("Ganhos na rodada: - $%.2f\n", players[i].getBet()));
+						players[i].lostGame();
+						sb.append(String.format("Saldo: $ %.2f", players[i].getCash()));
 					}
 				} else {
-					for (Player player : players) {
-						if (player.getFullHand().getPowerOfHand() > score) {
-							biggestScore.clear();
-							biggestScore.add(player);
-							score = player.getFullHand().getPowerOfHand();
-						} else if (player.getFullHand().getPowerOfHand() == score) {
-							if (biggestScore.size() == 0) {
-								biggestScore.add(player);
-							} else {
-								int response = player.getFullHand().tieBreak(biggestScore.get(0).getFullHand());
-								switch (response) {
-								case 0:
-									biggestScore.add(player);
-									break;
-								case 1:
-									biggestScore.clear();
-									biggestScore.add(player);
-									break;
-								}
-							}
-						}
-					}
-				}
-				
-				StringBuilder sb = new StringBuilder();
-				System.out.println("============== Poker Scores ==============");
-				sb.append(String.format("\n================= ROUND %d ================\n\n", roundCount));
-
-				for (int i = 0; i < playerNumber; i++) {
-					sb.append(String.format("\n\n---> Jogador %d: \n\n", i + 1));
-					sb.append(String.format("Nome do jogador: %s\n", players[i].getName()));
-					sb.append(String.format("Mao do Jogador: %s\n", players[i].getPlayerHand().toString()));
-					sb.append(String.format("Jogador saiu da mesa: %s", foldedPlayers[i] ? "sim\n" : "nao\n"));
-					sb.append(String.format("Ranking da mao: %s\n", players[i].getFullHand().getHandRanking()));
-					if (biggestScore.size() == 1) {
-						if (players[i].equals(biggestScore.get(0))) {
-							sb.append(String.format("->Jogador %d venceu.\n", i + 1));
-							sb.append(String.format("Ganhos na rodada: + $%.2f\n", totalBets - players[i].getBet()));
-							players[i].wonGame(totalBets - players[i].getBet());
+					int initialSize = biggestScore.size();
+					for (int j = 0; j < biggestScore.size(); j++) {
+						if (players[i].equals(biggestScore.get(j))) {
+							sb.append(String.format("->Jogador %d empatou.\n", i + 1));
 							players[i].addWinCount();
-							sb.append(String.format("Saldo: $ %.2f", players[i].getCash()));
-
-
-
-						} else {
-							sb.append(String.format("->Jogador %d perdeu.\n", i + 1));
-							sb.append(String.format("Ganhos na rodada: - $%.2f\n", players[i].getBet()));
-							players[i].lostGame();
-							sb.append(String.format("Saldo: $ %.2f", players[i].getCash()));
-						}
-					} else {
-						int initialSize = biggestScore.size();
-						for (int j = 0; j < biggestScore.size(); j++) {
-							if (players[i].equals(biggestScore.get(j))) {
-								sb.append(String.format("->Jogador %d empatou.\n", i + 1));
-								players[i].addWinCount();
-								double amount = totalBets / initialSize;
-								if (amount > 2 * players[i].getBet()) {
-									totalBets = amount - (2 * players[i].getBet());
-									amount = 2 * players[i].getBet();
-									initialSize--;
-								}
-								sb.append(String.format("Ganhos na rodada: + $%.2f\n", amount - players[i].getBet()));
-								players[i].wonGame(amount - players[i].getBet());
-								sb.append(String.format("Saldo: $ %.2f", players[i].getCash()));
-								break;
-
+							double amount = totalBets / initialSize;
+							if (amount > 2 * players[i].getBet()) {
+								totalBets = amount - (2 * players[i].getBet());
+								amount = 2 * players[i].getBet();
+								initialSize--;
 							}
+							sb.append(String.format("Ganhos na rodada: + $%.2f\n", amount - players[i].getBet()));
+							players[i].wonGame(amount - players[i].getBet());
+							sb.append(String.format("Saldo: $ %.2f", players[i].getCash()));
+							break;
+
 						}
 					}
 				}
-				sb.append("\n");
-				System.out.println(sb.toString());
-				saveResults(sb.toString());
-				System.out.println("\n\nDeseja come�ar outro round?");
-				System.out.printf("N - Novo Round \nS - Sair do Programa\n");
-				String response = sc.next().toUpperCase();
-				sc.nextLine();
-				if ("S".equals(response)) {
-					System.out.println("Programa Encerrado");
-					
+			}
+			sb.append("\n");
+			System.out.println(sb.toString());
+			saveResults(sb.toString());
+			System.out.println("\n\nDeseja come�ar outro round?");
+			System.out.printf("N - Novo Round \nS - Sair do Programa\n");
+			String response = sc.next().toUpperCase();
+			sc.nextLine();
+			if ("S".equals(response)) {
+				System.out.println("Programa Encerrado");
 
-					//TODO: Final do relatorio
-					
-					
-					System.exit(0);
+				// Final do relatorio
+				sb.setLength(0);
+				sb.append("================= RELATÓRIO ================\n");
+				sb.append("Modalidade: Fiva Card Draw\n\n");
+				for (Player player : players) {
+					sb.append(String.format("Jogador: %s\n", player.getNumber() + 1));
+					sb.append(String.format("Porcentagem de vitória: %.2f\n",
+							((double) player.getWinCount()) / roundCount * 100));
+					sb.append(String.format("Dinheiro Inicial: %.2f\n", player.getInitialCash()));
+					sb.append(String.format("Dinheiro Atual: %.2f\n", player.getCash()));
+					sb.append(String.format("Lucro: %.2f\n", player.getCash() - player.getInitialCash()));
+					sb.append(String.format("Número de Vitórias: %d\n\n", player.getWinCount()));
 				}
-				deck.resetDeck();
-				for(int i = 0; i < playerNumber; i++) {
-					players[i].resetPlayer();
-				}
-				roundCount++;
+				saveResults(sb.toString());
+				System.out.println(sb.toString());
+
+				System.exit(0);
+			}
+			deck.resetDeck();
+			deck.shuffle();
+			for (int i = 0; i < playerNumber; i++) {
+				players[i].resetPlayer();
+			}
+			roundCount++;
 		}
-}
+	}
 
 	public static <T> List<T> merge(List<T> list1, List<T> list2) {
 		List<T> list = new ArrayList<>();
